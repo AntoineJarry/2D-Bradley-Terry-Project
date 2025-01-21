@@ -10,6 +10,7 @@ from math import factorial, comb
 import Implementation_py.TwoD_model.NR_algorihm.starting_point as starting_point
 import Implementation_py.TwoD_model.NR_algorihm.NR_algo as NR_algo
 import Implementation_py.TwoD_model.fonctions as fonctions
+import Implementation_py.Bradley_Terry_model.Algorithm.functions as functions
 
 def calcul_lambda(N):
     # lambda_0 = np.random.rand(14, 1)  # Vecteur colonne avec des valeurs aléatoires entre 0 et 1 ne converge pas
@@ -195,6 +196,7 @@ def log_vraisemblance_M1(N, lambd): #lambd : lambda 1D
 def deviances(N):
     param_estim, mat_cov_var = calcul_lambda(N)
     n = int(len(N))
+    lambda_ = functions.bradley_terry_iterative(N)
     lambd = param_estim[0:2*n, 0]  # Lambda 2D
     a = param_estim[2*n:2*n+3, 0]  # Coef de Lagrange a
 
@@ -202,3 +204,5 @@ def deviances(N):
     D1 = -2*(log_vraisemblance_M0(N) - log_vraisemblance_M1(N, lambda_))
     D2 = -2*(log_vraisemblance_M1(N, lambda_) - log_Vraisemblance_mod_1(N, lambd, a))
     D_residual = -2*(log_Vraisemblance_mod_1(N, lambd, a) - log_vraisemblance_max(N))
+
+    return f"Déviance du modèle nul : {D0}\n Déviance du modèle en 1D : {D1}\n Déviance du modèle en 2D : {D2}\n Déviance résiduelle : {D_residual}"
