@@ -5,9 +5,11 @@ import matplotlib.pyplot as plt
 from scipy.stats import chi2
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
+from math import factorial, comb
 
 import Implementation_py.TwoD_model.NR_algorihm.starting_point as starting_point
 import Implementation_py.TwoD_model.NR_algorihm.NR_algo as NR_algo
+import Implementation_py.TwoD_model.fonctions as fonctions
 
 def calcul_lambda(N):
     # lambda_0 = np.random.rand(14, 1)  # Vecteur colonne avec des valeurs aléatoires entre 0 et 1 ne converge pas
@@ -48,6 +50,7 @@ def graphique_2D(N):
     plt.show()
 
 def ellipses(N,labels):
+
     param_estim, mat_cov_var = calcul_lambda(N)
     n = len(N)
     lambda_1 = param_estim[0:n, 0]  # Coordonnées X
@@ -115,3 +118,87 @@ def ellipses(N,labels):
     # Grille et autres éléments de style
     ax.grid(True, color='black')  # Grille noire
     plt.show()
+
+def calcul_pi_ij(N,lambd, i, j):
+    """
+    Calcule pi_ij = sigma_ij * sqrt[(lambda_i,1 − lambda_j,1)^2 + (lambda_i,2 − lambda_j,2)^2]
+
+    Arguments :
+    - lambd : vecteur np.array de taille (2*n,), contient les coordonnées lambda sous la forme [lambda_1,1, lambda_1,2, ..., lambda_n,1, lambda_n,2].
+    - i, j : index du vecteur lambda.
+
+    Retourne :
+    - pi_ij : Un entier.
+    """
+    n = int(len(lambd) / 2)
+    sigma_ij = fonctions.estim_sigma(N,i,j)
+    logit_pi_ij = sigma_ij * np.sqrt((lambd[i] - lambd[j])**2 + (lambd[n+i] - lambd[n+j])**2)
+    pi_ij = fonctions.inv_logit(logit_pi_ij)
+    return pi_ij
+
+def log_vraisemblance_max(N):
+    log_Vraisemblance = 0
+    for i in range(N.shape[0]):
+        for j in range(i+1, N.shape[1]):
+          if j != i:
+              nij = N[i, j]
+              mij = N[i, j] + N[j, i]
+              pi_ij = nij/mij
+              log_Vraisemblance += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
+    return log_Vraisemblance
+
+def log_Vraisemblance_mod_1(N, lambd, a): # lambd : lambda 2D
+    """
+    Calcule la log-vraisemblance à partir des estimations des paramètres.
+    """
+    #param_estim, mat_cov_var = calcul_lambda(N)
+    #n = len(N)
+    #lambd = param_estim[0:2*n, 0]  # Lambda
+    #a = param_estim[2*n:2*n+3, 0]  # Coef de Lagrange a
+    log_Vraisemblance = 0
+    for i in range(N.shape[0]):
+        for j in range(i+1, N.shape[1]):
+          if j != i:
+              nij = N[i, j]
+              mij = N[i, j] + N[j, i]
+              pi_ij = calcul_pi_ij(N,lambd, i, j)
+              log_Vraisemblance += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
+    log_Vraisemblance += np.sum(a * fonctions.phi(lambd))
+    return log_Vraisemblance
+
+def log_vraisemblance_M0(N):
+    log_L = 0
+    for i in range(N.shape[0]):
+        for j in range(i+1, N.shape[1]):
+            nij = N[i, j]
+            mij = N[i, j] + N[j, i]
+            # Calcul de la log-vraisemblance pour pi_ij = 0.5
+            log_L += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + mij * np.log(0.5)
+    return log_L
+
+def log_vraisemblance_M1(N, lambd): #lambd : lambda 1D
+    log_L = 0
+    for i in range(N.shape[0]):
+        for j in range(i+1, N.shape[1]):
+            nij = N[i, j]
+            mij = N[i, j] + N[j, i]
+            # Calcul de pi_ij pour M1
+            diff_lambda = abs(lambd[i] - lambd[j])
+            sigma_ij = fonctions.estim_sigma(N, i, j)
+            logit_pi_ij = sigma_ij * diff_lambda
+            pi_ij = fonctions.inv_logit(logit_pi_ij)
+
+            # Log-vraisemblance
+            log_L += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
+    return log_L
+
+def deviances(N):
+    param_estim, mat_cov_var = calcul_lambda(N)
+    n = int(len(N))
+    lambd = param_estim[0:2*n, 0]  # Lambda 2D
+    a = param_estim[2*n:2*n+3, 0]  # Coef de Lagrange a
+
+    D0 = -2*(log_vraisemblance_M0(N) - log_vraisemblance_max(N))
+    D1 = -2*(log_vraisemblance_M0(N) - log_vraisemblance_M1(N, lambda_))
+    D2 = -2*(log_vraisemblance_M1(N, lambda_) - log_Vraisemblance_mod_1(N, lambd, a))
+    D_residual = -2*(log_Vraisemblance_mod_1(N, lambd, a) - log_vraisemblance_max(N))
