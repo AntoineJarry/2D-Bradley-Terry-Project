@@ -1,10 +1,4 @@
-from math import log
 import numpy as np
-import numpy.linalg as lng
-import matplotlib.pyplot as plt
-
-import Implementation_py.TwoD_model.NR_algorihm.starting_point as starting_point
-import Implementation_py.TwoD_model.NR_algorihm.NR_algo as NR_algo
 import Implementation_py.TwoD_model.calcul_affichage as calcul_affichage
 
 N = np.array([
@@ -16,4 +10,6 @@ N = np.array([
   [24, 15, 59, 20, 29, 0, 18],
   [54, 40, 65, 72, 63, 82, 0]])
 
-calcul_affichage.graphique_2D(N)
+#calcul_affichage.graphique_2D(N)
+labels = ['COMPLÈTEMENT', 'SOUS', 'ORTILLION', "L'ALCOOL", "L'EMPRISE DE", 'BAPTISTE', 'EST']
+calcul_affichage.ellipses(N,labels)
