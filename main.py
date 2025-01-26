@@ -1,6 +1,6 @@
 import numpy as np
-import Implementation_py.TwoD_model.calcul_affichage as calcul_affichage
-import Implementation_py.Bradley_Terry_model.calcul_affichage as calcul_1D
+import First_part_project.Bradley_Terry_Model_2D.calcul_affichage as calcul_affichage
+import First_part_project.Bradley_Terry_model_1D.calcul_affichage as calcul_1D
 
 N = np.array([
   [0, 39, 64, 40, 61, 76, 46],

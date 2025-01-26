@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 from math import factorial, comb
 
-import Implementation_py.TwoD_model.NR_algorihm.starting_point as starting_point
-import Implementation_py.TwoD_model.NR_algorihm.NR_algo as NR_algo
-import Implementation_py.TwoD_model.fonctions as fonctions
-import Implementation_py.Bradley_Terry_model.Algorithm.functions as functions
+import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.starting_point as starting_point
+import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.NR_algo as NR_algo
+import First_part_project.Bradley_Terry_Model_2D.fonctions as fonctions
+import First_part_project.Bradley_Terry_model_1D.Algorithm.functions as functions
 
 def calcul_lambda(N):
     # lambda_0 = np.random.rand(14, 1)  # Vecteur colonne avec des valeurs aléatoires entre 0 et 1 ne converge pas
@@ -84,7 +84,7 @@ def ellipses(N,labels):
         axis_lengths = np.sqrt(chi2_val * eigenvalues)
 
         # Calculer l'angle de rotation de l'ellipse
-        angle = np.degrees(np.arctan2(-eigenvectors[1, 0], eigenvectors[0, 0])) ## moins devant eigenvector car c'est ce qu'on a fait précédemment aussi
+        angle = np.degrees(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0])) ## moins devant eigenvector car c'est ce qu'on a fait précédemment aussi
 
         # Extraire les estimations correspondantes (moyennes)
         mean_2d = np.vstack((lambda_1[idx[0]], lambda_2[idx[0]]))
@@ -132,9 +132,8 @@ def calcul_pi_ij(N,lambd, i, j):
     - pi_ij : Un entier.
     """
     n = int(len(lambd) / 2)
-    sigma_ij = fonctions.estim_sigma(N,i,j)
-    logit_pi_ij = sigma_ij * np.sqrt((lambd[i] - lambd[j])**2 + (lambd[n+i] - lambd[n+j])**2)
-    pi_ij = fonctions.inv_logit(logit_pi_ij)
+    lamb = np.hstack((lambd[0:n,], lambd[n:2*n,]))
+    pi_ij = fonctions.inv_logit(fonctions.logit_pi_ij(N,lamb,i,j))
     return pi_ij
 
 def log_vraisemblance_max(N):

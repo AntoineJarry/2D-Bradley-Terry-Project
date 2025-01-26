@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-import Implementation_py.Bradley_Terry_model.Algorithm.functions as functions
+import First_part_project.Bradley_Terry_model_1D.Algorithm.functions as functions
 
 def graphique_1D(N):
     # Sample data (coordinates of items in two dimensions)

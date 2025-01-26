@@ -61,13 +61,13 @@ def deux_plus_grandes_valeurs_propres(valeurs_propres, vecteurs_propres):
     racines_valeurs_propres = np.sqrt(top2_valeurs_propres)  # Racine carrée des deux plus grandes valeurs propres
     vecteurs_resultants = top2_vecteurs_propres * racines_valeurs_propres  # Multiplication vecteurs * racines
     # Empiler les deux vecteurs propres pour former un seul vecteur colonne
-    vecteur_final = np.hstack((vecteurs_resultants[:,0],-vecteurs_resultants[:,1])) ## application d'un moins sur le 2ème vecteur resultants pour prendre l'opposé du vecteur propre mais explications nécessaires
+    vecteur_final = np.hstack((vecteurs_resultants[:,0],vecteurs_resultants[:,1])) 
 
     return vecteur_final.reshape(-1,1)
 
 def starting_point(mat_N):
   Q = matrice_Q(mat_N)
-  Qc=Q_c(Q)
+  Qc= Q_c(Q)
   valeurs_propres, vecteurs_propres = np.linalg.eig((-1/2)*Qc)
   vect_prop_norm = normaliser_vecteurs_propres(vecteurs_propres)
   return deux_plus_grandes_valeurs_propres(valeurs_propres,vect_prop_norm) ## retourne vecteur colonne lambda 0

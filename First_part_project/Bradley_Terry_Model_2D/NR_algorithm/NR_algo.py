@@ -3,7 +3,7 @@ import numpy as np
 import numpy.linalg as lng
 import matplotlib.pyplot as plt
 
-import Implementation_py.TwoD_model.fonctions as fonctions
+import First_part_project.Bradley_Terry_Model_2D.fonctions as fonctions
 
 def newton_raphson(mat_N,lamb_current, a_current, tol=1e-6, max_iter=50):
     """
