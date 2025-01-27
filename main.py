@@ -13,9 +13,9 @@ N = np.array([
 
 labels = ['1', '2', '3', "4", "5", '6', '7']
 
-calcul_1D.graphique_1D(N,labels)
+# calcul_1D.graphique_1D(N,labels)
 
-#calcul_affichage.graphique_2D(N,labels)
+calcul_affichage.graphique_2D(N,labels)
 
 
 #calcul_affichage.ellipses(N,labels)
