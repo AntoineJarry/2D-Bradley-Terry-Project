@@ -43,7 +43,7 @@ def normaliser_vecteurs_propres(vecteurs_propres):
         vecteurs_propres[:, i] = vecteur / norme  # Normalisation du vecteur
     return vecteurs_propres
 
-def deux_plus_grandes_valeurs_propres(valeurs_propres, vecteurs_propres):
+def deux_plus_grandes_valeurs_propres(valeurs_propres, vecteurs_propres,reverse_v1,reverse_v2):
     # Filtrer les valeurs propres strictement positives et leurs indices
     indices_positifs = np.where(valeurs_propres > 0)[0]
     valeurs_propres_positives = valeurs_propres[indices_positifs]
@@ -61,13 +61,20 @@ def deux_plus_grandes_valeurs_propres(valeurs_propres, vecteurs_propres):
     racines_valeurs_propres = np.sqrt(top2_valeurs_propres)  # Racine carrée des deux plus grandes valeurs propres
     vecteurs_resultants = top2_vecteurs_propres * racines_valeurs_propres  # Multiplication vecteurs * racines
     # Empiler les deux vecteurs propres pour former un seul vecteur colonne
-    vecteur_final = np.hstack((vecteurs_resultants[:,0],vecteurs_resultants[:,1])) 
+    if reverse_v1==True and reverse_v2==True :
+       vecteur_final = np.hstack((-vecteurs_resultants[:,0],-vecteurs_resultants[:,1]))
+    elif reverse_v1 == True and reverse_v2 == False : 
+       vecteur_final = np.hstack((-vecteurs_resultants[:,0],vecteurs_resultants[:,1])) 
+    elif reverse_v1 == False and reverse_v2 == True : 
+       vecteur_final = np.hstack((vecteurs_resultants[:,0],-vecteurs_resultants[:,1]))
+    else :
+       vecteur_final = np.hstack((vecteurs_resultants[:,0],vecteurs_resultants[:,1]))
 
     return vecteur_final.reshape(-1,1)
 
-def starting_point(mat_N):
+def starting_point(mat_N,reverse_v1,reverse_v2):
   Q = matrice_Q(mat_N)
   Qc= Q_c(Q)
   valeurs_propres, vecteurs_propres = np.linalg.eig((-1/2)*Qc)
   vect_prop_norm = normaliser_vecteurs_propres(vecteurs_propres)
-  return deux_plus_grandes_valeurs_propres(valeurs_propres,vect_prop_norm) ## retourne vecteur colonne lambda 0
+  return deux_plus_grandes_valeurs_propres(valeurs_propres,vect_prop_norm,reverse_v1,reverse_v2) ## retourne vecteur colonne lambda 0

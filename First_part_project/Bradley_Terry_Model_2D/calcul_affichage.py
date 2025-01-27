@@ -12,18 +12,18 @@ import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.NR_algo as NR_algo
 import First_part_project.Bradley_Terry_Model_2D.fonctions as fonctions
 import First_part_project.Bradley_Terry_model_1D.Algorithm.functions as functions
 
-def calcul_lambda(N):
+def calcul_lambda(N,reverse_v1,reverse_v2):
     # lambda_0 = np.random.rand(14, 1)  # Vecteur colonne avec des valeurs aléatoires entre 0 et 1 ne converge pas
-    lambda_0 = starting_point.starting_point(N) # vecteur colonne début censé être cool
+    lambda_0 = starting_point.starting_point(N,reverse_v1,reverse_v2) # vecteur colonne début censé être cool
     #print(lambda_0) ## selon la page 248 lambda général comme ça (vecteur colonne)
     a_0 = np.zeros((3,1))  ## selon la page 250 définie comme ça (vecteur colonne) + p252 dit choix arbitraire pas de soucis sur la convergence (à vérifier)
     param_estim , mat_cov_var = NR_algo.newton_raphson(N,lambda_0, a_0)
     return param_estim, mat_cov_var
     #print(param_estim)
 
-def graphique_2D(N,labels):
+def graphique_2D(N,labels,reverse_v1,reverse_v2):
 
-    param_estim, mat_cov_var = calcul_lambda(N)
+    param_estim, mat_cov_var = calcul_lambda(N,reverse_v1,reverse_v2)
     n = len(N)
     # Sample data (coordinates of items in two dimensions)
     # Replace these with actual model values
@@ -49,9 +49,9 @@ def graphique_2D(N,labels):
     plt.axvline(0, color='black',linewidth=0.5)
     plt.show()
 
-def ellipses(N,labels):
+def ellipses(N,labels,reverse_v1,reverse_v2):
 
-    param_estim, mat_cov_var = calcul_lambda(N)
+    param_estim, mat_cov_var = calcul_lambda(N,reverse_v1,reverse_v2)
     n = len(N)
     lambda_1 = param_estim[0:n, 0]  # Coordonnées X
     lambda_2 = param_estim[n:2*n, 0]  # Coordonnées Y
@@ -81,9 +81,16 @@ def ellipses(N,labels):
 
         # Calculer la longueur des axes de l'ellipse
         axis_lengths = np.sqrt(chi2_val * eigenvalues)
-
-        # Calculer l'angle de rotation de l'ellipse
-        angle = np.degrees(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0])) ## moins devant eigenvector car c'est ce qu'on a fait précédemment aussi
+        
+        if reverse_v1==True and reverse_v2==True :
+            angle = np.degrees(np.arctan2(-eigenvectors[1, 0], -eigenvectors[0, 0]))
+        elif reverse_v1 == True and reverse_v2 == False : 
+            angle = np.degrees(np.arctan2(eigenvectors[1, 0], -eigenvectors[0, 0])) 
+        elif reverse_v1 == False and reverse_v2 == True : 
+            angle = np.degrees(np.arctan2(-eigenvectors[1, 0], eigenvectors[0, 0]))
+        else :
+            angle = np.degrees(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0]))# Calculer l'angle de rotation de l'ellipse
+        
 
         # Extraire les estimations correspondantes (moyennes)
         mean_2d = np.vstack((lambda_1[idx[0]], lambda_2[idx[0]]))
