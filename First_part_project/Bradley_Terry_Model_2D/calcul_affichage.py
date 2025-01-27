@@ -21,13 +21,12 @@ def calcul_lambda(N):
     return param_estim, mat_cov_var
     #print(param_estim)
 
-def graphique_2D(N):
+def graphique_2D(N,labels):
 
     param_estim, mat_cov_var = calcul_lambda(N)
     n = len(N)
     # Sample data (coordinates of items in two dimensions)
     # Replace these with actual model values
-    labels = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5','Item 6','Item 7']
     lambda_1 = param_estim[0:n,]  # X-coordinates
     lambda_2 = param_estim[n:2*n,]  # Y-coordinates
 

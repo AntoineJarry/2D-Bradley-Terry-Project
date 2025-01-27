@@ -11,11 +11,13 @@ N = np.array([
   [24, 15, 59, 20, 29, 0, 18],
   [54, 40, 65, 72, 63, 82, 0]])
 
-calcul_1D.graphique_1D(N)
+labels = ['1', '2', '3', "4", "5", '6', '7']
 
-#calcul_affichage.graphique_2D(N)
+calcul_1D.graphique_1D(N,labels)
 
-labels = ['COMPLÈTEMENT', 'SOUS', 'ORTILLION', "L'ALCOOL", "L'EMPRISE DE", 'BAPTISTE', 'EST']
+#calcul_affichage.graphique_2D(N,labels)
+
+
 #calcul_affichage.ellipses(N,labels)
 
 #print(calcul_affichage.deviances(N))
