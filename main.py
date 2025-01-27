@@ -15,8 +15,8 @@ labels = ['1', '2', '3', "4", "5", '6', '7']
 
 # calcul_1D.graphique_1D(N,labels)
 
-calcul_affichage.graphique_2D(N,labels,reverse_v1=False,reverse_v2=True)
+# calcul_affichage.graphique_2D(N,labels,reverse_v1=False,reverse_v2=True)
 
-calcul_affichage.ellipses(N,labels,reverse_v1=False,reverse_v2=True)
+# calcul_affichage.ellipses(N,labels,reverse_v1=False,reverse_v2=True)
 
-#print(calcul_affichage.deviances(N))
+print(calcul_affichage.deviances(N,reverse_v1=False,reverse_v2=True))

@@ -138,8 +138,14 @@ def calcul_pi_ij(N,lambd, i, j):
     - pi_ij : Un entier.
     """
     n = int(len(lambd) / 2)
-    lamb = np.hstack((lambd[0:n,], lambd[n:2*n,]))
-    pi_ij = fonctions.inv_logit(fonctions.logit_pi_ij(N,lamb,i,j))
+    print(lambd)
+    col1 = lambd[:n]  # Les n premiers éléments
+    col2 = lambd[n:2*n]  # Les n éléments suivants
+
+# Combiner les deux colonnes
+    lamb = np.column_stack((col1, col2))
+    print(lamb)
+    pi_ij = fonctions.inv_logit(fonctions.logit_pi_ij(N,i,j,lamb))
     return pi_ij
 
 def log_vraisemblance_max(N):
