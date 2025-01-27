@@ -198,8 +198,8 @@ def log_vraisemblance_M1(N, lambd): #lambd : lambda 1D
             log_L += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
     return log_L
 
-def deviances(N):
-    param_estim, mat_cov_var = calcul_lambda(N)
+def deviances(N,reverse_v1,reverse_v2):
+    param_estim, mat_cov_var = calcul_lambda(N,reverse_v1,reverse_v2)
     n = int(len(N))
     lambda_ = functions.bradley_terry_iterative(N)
     lambd = param_estim[0:2*n, 0]  # Lambda 2D
