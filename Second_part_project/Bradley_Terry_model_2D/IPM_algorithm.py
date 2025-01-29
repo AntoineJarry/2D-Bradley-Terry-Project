@@ -36,15 +36,19 @@ def IPM_algorithm(N,a0,lam0,method) :
     constraints = {'type': 'eq', 'fun': eq_constraint}
 
     # Optimization
-    result = minimize(objective, initial_guess,args = N, method=method, constraints=constraints) ## add jacobian and hess
-    
+    result = minimize(objective, initial_guess,args = (N,), method=method, constraints=constraints) ## add jacobian and hess
+    n=len(N)
+    # Results
     if result.success:
-        optimized_lambda = result.x
-        print("Optimal lambda (10 x 2):\n", optimized_lambda)
+        optimized_params = result.x
+        optimal_lambda = optimized_params[:-3].reshape(n, 2)
+        optimal_a = optimized_params[-3:]
+        print("Optimal lambda (10 x 2):\n", optimal_lambda)
+        print("Optimal a (3 values):\n", optimal_a)
         print("Maximum log-likelihood:", -result.fun)
     else:
         print("Optimization failed:", result.message)
-        
+    
     return result
     
 

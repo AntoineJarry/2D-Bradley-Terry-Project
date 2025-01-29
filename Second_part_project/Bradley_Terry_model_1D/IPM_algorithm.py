@@ -17,7 +17,7 @@ def eq_constraint(lam):
 def IPM_1D(N,initial_guess,method) : 
 
     constraints = {'type': 'eq', 'fun': eq_constraint}
-    result = minimize(objective, initial_guess , args = N, method=method, constraints=constraints)
+    result = minimize(objective, initial_guess , args = (N,), method=method, constraints=constraints)
     # Results
     if result.success:
         optimized_lambda = result.x
