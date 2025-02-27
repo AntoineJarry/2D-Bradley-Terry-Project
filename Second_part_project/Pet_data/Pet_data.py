@@ -45,5 +45,3 @@ for _, row in data_cat.iterrows():
 
 # Afficher la matrice
 print(comparison_matrix_cat_opt3)
-
-
