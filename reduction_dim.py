@@ -92,7 +92,7 @@ for i, label in enumerate(teams):
     axs[2, 0].text(X_Mmds[i, 0], X_Mmds[i, 1], label, fontsize=9)
 axs[2, 0].set_title(" Metric MDS - 2D")
 
-# Non MDS plot
+# Non metric MDS plot
 
 axs[2, 1].scatter(X_Nmds[:, 0], X_Nmds[:, 1])
 for i, label in enumerate(teams):
