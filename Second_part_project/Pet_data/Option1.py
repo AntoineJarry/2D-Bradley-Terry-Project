@@ -1,7 +1,6 @@
 # Sur dog data
 import pandas as pd
 data_dog = pd.read_excel("VYE15004.xlsx")
-
 dog_pref = data_dog[["ALIMENT_A_LIBELLE", "ALIMENT_B_LIBELLE", "CONSO_A", "CONSO_B", "RATIO_A", "RATIO_B"]]
 
 
@@ -52,8 +51,32 @@ dog_mat = dog_mat.fillna(0)
 dog_mat = dog_mat[[dog_mat.columns[-1]] + list(dog_mat.columns[:-1])]
 
 # Affichage du résultat
-print(dog_mat)
+# print(dog_mat)
 
 
 # Pour les chats
 data_cat = pd.read_excel("AMA08001.xlsx")
+
+cat_pref = data_cat[["ALIMENT_A_LIBELLE", "ALIMENT_B_LIBELLE", "CONSO_A", "CONSO_B", "RATIO_A", "RATIO_B"]]
+cat_pref = cat_pref.apply(versus_ordre_aphabetique, axis=1)
+
+cat_pref = cat_pref.groupby(groupby_cols).agg(agg_funcs).reset_index()
+
+cat_pref["CONSO_AB"] = cat_pref["CONSO_A"] + cat_pref["CONSO_B"]
+cat_pref["CONSO_Mij"] = cat_pref["RATIO_A"] * cat_pref["CONSO_AB"] / 100
+cat_pref["CONSO_Mji"] = cat_pref["RATIO_B"] * cat_pref["CONSO_AB"] / 100
+
+# Création de la matrice avec pivot_table
+cat_mat = pd.pivot_table(cat_pref, values='CONSO_Mij', index='ALIMENT_A_LIBELLE', columns='ALIMENT_B_LIBELLE', fill_value=0)
+
+# Ajout des valeurs symétriques
+for _, row in cat_pref.iterrows():
+    cat_mat.at[row['ALIMENT_B_LIBELLE'], row['ALIMENT_A_LIBELLE']] = row['CONSO_Mji']  # Valeur pour (j, i)
+
+# Remplacer les NaN éventuels par 0
+cat_mat = cat_mat.fillna(0)
+
+# Réorganiser les colonnes : déplacer la dernière colonne en première
+cat_mat = cat_mat[[cat_mat.columns[-1]] + list(cat_mat.columns[:-1])]
+
+print(cat_mat)
