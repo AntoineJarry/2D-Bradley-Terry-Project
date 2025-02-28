@@ -56,4 +56,4 @@ print(dog_mat)
 
 
 # Pour les chats
-data_cat = pd.read_excel("AMA08001.xlsx")
+data_cat = round(pd.read_excel("AMA08001.xlsx"))
