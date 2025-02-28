@@ -75,4 +75,4 @@ lambda_0 = starting_point.starting_point(N, False, True)
 a_0 = np.zeros((3,1))
 params = np.vstack((lambda_0, a_0))
 
-objective(params,N)
+IPM_algorithm(N, a_0, lam0=lambda_0, method="trust-constr")
