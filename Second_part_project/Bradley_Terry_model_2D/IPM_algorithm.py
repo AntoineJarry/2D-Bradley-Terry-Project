@@ -15,7 +15,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 # Objective function: Log-likelihood + penalty terms
-def objective(params, N):
+def objective(params,N):
     n = len(N)
     lam = params[:-3].reshape(n, 2)  # Extract lambda
     a = params[-3:]                 # Extract a
@@ -26,12 +26,9 @@ def objective(params, N):
     for i in range(n):
         for j in range(i + 1, n):
             pi_ij = fonctions.inv_logit(fonctions.logit_pi_ij(nij, i, j, lam))
-            likelihood += np.log(factorial(mij, exact=False) / (factorial(mij - nij, exact=False) * factorial(nij, exact=False))) + \
-                          nij[i, j] * np.log(pi_ij) + (mij[i, j] - nij[i, j]) * np.log(1 - pi_ij)
-
+            likelihood += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij)))+ nij[i, j] * np.log(pi_ij) + (mij[i, j] - nij[i, j]) * np.log(1 - pi_ij)
     # Penalty term
     penalty = a[0] * np.sum(lam[:, 0]) + a[1] * np.sum(lam[:, 1]) + a[2] * np.sum(lam[:, 0] * lam[:, 1])
-    
     return -(likelihood + penalty)
 
 # Equality constraint: phi(lambda) = 0
