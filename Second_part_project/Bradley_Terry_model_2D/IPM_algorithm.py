@@ -10,9 +10,11 @@ sys.path.append(project_root)
 
 import First_part_project.Bradley_Terry_Model_2D.fonctions as fonctions
 import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.starting_point as starting_point
-from math import factorial, comb
+from math import  comb
 import numpy as np
 from scipy.optimize import minimize
+import matplotlib.pyplot as plt  
+
 
 # Objective function: Log-likelihood + penalty terms
 def objective(params,N):
@@ -26,7 +28,7 @@ def objective(params,N):
     for i in range(n):
         for j in range(i + 1, n):
             pi_ij = fonctions.inv_logit(fonctions.logit_pi_ij(nij, i, j, lam))
-            likelihood += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij)))+ nij[i, j] * np.log(pi_ij) + (mij[i, j] - nij[i, j]) * np.log(1 - pi_ij)
+            likelihood += nij[i, j] * np.log(pi_ij) + (mij[i, j] - nij[i, j]) * np.log(1 - pi_ij)
     # Penalty term
     penalty = a[0] * np.sum(lam[:, 0]) + a[1] * np.sum(lam[:, 1]) + a[2] * np.sum(lam[:, 0] * lam[:, 1])
     return -(likelihood + penalty)
@@ -43,8 +45,8 @@ def eq_constraint(params,N):
     return phi
 
 def IPM_algorithm(N,a0,lam0,method) : 
-    initial_guess = np.concatenate([lam0, a0])
-    constraints = {'type': 'eq', 'fun': eq_constraint}
+    initial_guess = np.concatenate([lam0.flatten(), a0.flatten()])
+    constraints = {'type': 'eq', 'fun': eq_constraint,'args': (N,)}
 
     # Optimization
     result = minimize(objective, initial_guess,args = (N,), method=method, constraints=constraints) ## add jacobian and hess
@@ -73,6 +75,19 @@ N = np.array([
 
 lambda_0 = starting_point.starting_point(N, False, True)
 a_0 = np.zeros((3,1))
-params = np.vstack((lambda_0, a_0))
 
-objective(params,N)
+res = IPM_algorithm(N,a_0,lambda_0,'trust-constr')
+
+# Extraire les paramètres optimaux depuis `res`
+n = len(N)  # Taille de la matrice N
+optimized_params = res.x  # Prendre les valeurs optimisées
+optimal_lambda = optimized_params[:-3].reshape(n, 2)  # Reshape en (n,2)
+
+# Tracer optimal_lambda[:, 0] contre optimal_lambda[:, 1]
+plt.scatter(optimal_lambda[:, 1], -optimal_lambda[:, 0], color='b', label='Optimal Lambda')
+plt.xlabel("Lambda 1")
+plt.ylabel("Lambda 2")
+plt.title("Optimized Lambda Values")
+plt.legend()
+plt.grid(True)
+plt.show()
