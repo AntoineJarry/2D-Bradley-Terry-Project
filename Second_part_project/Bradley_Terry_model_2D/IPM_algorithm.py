@@ -64,6 +64,8 @@ def IPM_algorithm(N,a0,lam0,method) :
     
     return result
 
+# Tests (à conserver pour le moment, à supprimer à la fin)
+"""
 N = np.array([
   [0, 39, 64, 40, 61, 76, 46],
   [61, 0, 65, 59, 55, 85, 60],
@@ -83,11 +85,17 @@ n = len(N)  # Taille de la matrice N
 optimized_params = res.x  # Prendre les valeurs optimisées
 optimal_lambda = optimized_params[:-3].reshape(n, 2)  # Reshape en (n,2)
 
+labels = ['1', '2', '3', "4", "5", '6', '7']
+# Annotating points with labels
+for i, label in enumerate(labels):
+    plt.text(optimal_lambda[:, 1][i] + 0.02, -optimal_lambda[:, 0][i] + 0.02, label, fontsize=12)
+
 # Tracer optimal_lambda[:, 0] contre optimal_lambda[:, 1]
-plt.scatter(optimal_lambda[:, 1], -optimal_lambda[:, 0], color='b', label='Optimal Lambda')
+plt.scatter(optimal_lambda[:, 1], -optimal_lambda[:, 0], color='b', label=labels)
 plt.xlabel("Lambda 1")
 plt.ylabel("Lambda 2")
 plt.title("Optimized Lambda Values")
 plt.legend()
 plt.grid(True)
 plt.show()
+"""
