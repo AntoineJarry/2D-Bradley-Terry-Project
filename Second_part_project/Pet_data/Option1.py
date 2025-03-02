@@ -1,5 +1,6 @@
 # Sur dog data
 import pandas as pd
+import pickle
 data_dog = pd.read_excel("VYE15004.xlsx")
 dog_pref = data_dog[["ALIMENT_A_LIBELLE", "ALIMENT_B_LIBELLE", "CONSO_A", "CONSO_B", "RATIO_A", "RATIO_B"]]
 
@@ -51,7 +52,7 @@ dog_mat = dog_mat.fillna(0)
 dog_mat = dog_mat[[dog_mat.columns[-1]] + list(dog_mat.columns[:-1])]
 
 # Affichage du résultat
-# print(dog_mat)
+dog_mat_np = dog_mat.to_numpy()
 
 
 # Pour les chats
@@ -79,4 +80,12 @@ cat_mat = cat_mat.fillna(0)
 # Réorganiser les colonnes : déplacer la dernière colonne en première
 cat_mat = cat_mat[[cat_mat.columns[-1]] + list(cat_mat.columns[:-1])]
 
-print(cat_mat)
+# Convertir la matrice pandas en numpy array
+cat_mat_np = cat_mat.to_numpy()
+
+# Sauvegarder les matrices numpy dans un fichier pickle
+with open("dog_mat.npy", "wb") as f:
+    pickle.dump(dog_mat_np, f)
+
+with open("cat_mat.npy", "wb") as f:
+    pickle.dump(cat_mat_np, f)
