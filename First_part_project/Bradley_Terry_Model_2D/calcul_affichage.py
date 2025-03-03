@@ -208,7 +208,8 @@ def deviances(N,reverse_v1,reverse_v2):
     lambda_ = functions.bradley_terry_iterative(N)
     lambd = param_estim[0:2*n, 0]  # Lambda 2D
     a = param_estim[2*n:2*n+3, 0]  # Coef de Lagrange a
-
+    print("logV modèle 2D :", log_Vraisemblance_mod_1(N, lambd, a))
+    print("logV modèle 1D",log_vraisemblance_M1(N, lambda_))
     D0 = -2*(log_vraisemblance_M0(N) - log_vraisemblance_max(N))
     D1 = -2*(log_vraisemblance_M0(N) - log_vraisemblance_M1(N, lambda_))
     D2 = -2*(log_vraisemblance_M1(N, lambda_) - log_Vraisemblance_mod_1(N, lambd, a))

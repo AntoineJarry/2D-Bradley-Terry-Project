@@ -89,3 +89,6 @@ with open("dog_mat.npy", "wb") as f:
 
 with open("cat_mat.npy", "wb") as f:
     pickle.dump(cat_mat_np, f)
+
+
+print(cat_mat_np)
