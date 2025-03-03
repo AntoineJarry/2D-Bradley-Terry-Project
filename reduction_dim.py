@@ -37,7 +37,8 @@ with open("comparison_matrix_dog_opt3.npy", "rb") as f:
 with open("comparison_matrix_cat_opt3.npy", "rb") as f:
     comparison_matrix_cat_opt3 = pickle.load(f)
 
-
+print(comparison_matrix_cat_opt3)
+print(comparison_matrix_dog_opt3)
 # Charger les matrices à partir des fichiers pickle
 with open("dog_mat.npy", "rb") as f:
     dog_mat = pickle.load(f)
