@@ -3,7 +3,9 @@ import First_part_project.Bradley_Terry_Model_2D.calcul_affichage as calcul_affi
 import First_part_project.Bradley_Terry_model_1D.calcul_affichage as calcul_1D
 import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_graphique
 
-# Exemple de matrice 
+#####################
+# Exemples de matrice
+##################### 
 N = np.array([
   [0, 39, 64, 40, 61, 76, 46],
   [61, 0, 65, 59, 55, 85, 60],
@@ -59,7 +61,7 @@ labels_cat_2 = ['LWFP', 'LDFA', 'HDEA', 'HWEA', 'LDEA', 'HWEP', 'HWFA', 'HWFP', 
 
 # calcul_affichage.ellipses(N_cat_1,labels_cat_1,reverse_v1=False,reverse_v2=True)
 
-# print(calcul_affichage.deviances(N,reverse_v1=False,reverse_v2=True))
+# print(calcul_affichage.deviances(N_cat_2,reverse_v1=False,reverse_v2=True))
 
 ##########
 # PARTIE 2
@@ -67,14 +69,4 @@ labels_cat_2 = ['LWFP', 'LDFA', 'HDEA', 'HWEA', 'LDEA', 'HWEP', 'HWFA', 'HWFP', 
 
 # calcul_graphique.graphique_IPM(N_cat_2,method = "trust-constr",reverse_v1=False,reverse_v2=True,labels=labels_cat_2)
 
-
-D0 = -57.55180687718192
-D1 = -1308.2720255202005
-# Définir les paramètres
-G2 = D0 - D1  # Différence de déviance
-df = 17-5     # Différence de degrés de liberté
-
-from scipy.stats import chi2
-# Calculer la p-valeur
-p_value = 1 - chi2.cdf(G2, df)
-print("p-value :", p_value)
+# calcul_graphique.deviance_NR_IPM(N,method="trust-constr",reverse_v1=False,reverse_v2=True)

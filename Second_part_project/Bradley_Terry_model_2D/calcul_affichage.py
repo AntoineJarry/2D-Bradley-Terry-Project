@@ -12,7 +12,6 @@ sys.path.append(project_root)
 
 import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.starting_point as starting_point
 import First_part_project.Bradley_Terry_Model_2D.calcul_affichage as calcul_affichage
-import First_part_project.Bradley_Terry_model_1D.Algorithm.functions as functions
 import Second_part_project.Bradley_Terry_model_2D.IPM_algorithm as IPM_algorithm
 
 def graphique_IPM(N, method, reverse_v1, reverse_v2, labels):
@@ -47,16 +46,19 @@ def deviance_NR_IPM(N, method, reverse_v1, reverse_v2):
     
     # Calcul de la vraisemblance de Newton-Raphson
     param_estim, mat_cov_var = calcul_affichage.calcul_lambda(N,reverse_v1,reverse_v2)
-    n = int(len(N))
-    lambda_ = functions.bradley_terry_iterative(N)
     lambd = param_estim[0:2*n, 0]  # Lambda 2D
     a = param_estim[2*n:2*n+3, 0]  # Coef de Lagrange a
-    D0 = calcul_affichage.log_Vraisemblance_mod_1()
+    D0 = calcul_affichage.log_Vraisemblance_mod_1(N, lambd, a)
 
     # Définir les paramètres
     G2 = D0 - D1  # Différence de déviance
-    df = 2*n+3 - (n-2)     # Différence de degrés de liberté
+    df = 2*num_params+3 - (n-2)     # Différence de degrés de liberté
     # Calculer la p-valeur
     p_value = 1 - chi2.cdf(G2, df)
-    print("p-value :", p_value)
-    pass
+    print("\n_____________________________________________________")
+    print("INFOS DÉVIANCES\n")
+    print("Nombre de paramètres du modèle Newton-Raphson :", n-2)
+    print("Nombre de paramètres du modèle IPM :", num_params)
+    print("Log-vraisemblance Maximum IPM:", D1)
+    print("Log-vraisemblance Newton-Raphson:", D0)
+    print("Test du rapport de vraisemblance : p-valeur =", p_value)
