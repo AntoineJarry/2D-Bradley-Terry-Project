@@ -75,7 +75,7 @@ def IPM_algorithm(N,a0,lam0,method) :
   [60, 41, 69, 0, 41, 80, 28],
   [39, 45, 75, 59, 0, 71, 37],
   [24, 15, 59, 20, 29, 0, 18],
-  [54, 40, 65, 72, 63, 82, 0]])"""
+  [54, 40, 65, 72, 63, 82, 0]])
 
 N = np.array([
     [ 0, 11, 17,  9,  2, 20, 18,  5],
@@ -87,7 +87,7 @@ N = np.array([
     [23, 19, 13, 17, 17, 27,  0, 24],
     [31, 31, 24, 33, 23, 23, 16,  0]
 ])
-"""lambda_0 = starting_point.starting_point(N, False, True)
+lambda_0 = starting_point.starting_point(N, False, True)
 a_0 = np.zeros((3,1))
 
 res = IPM_algorithm(N,a_0,lambda_0,'trust-constr')
@@ -109,16 +109,4 @@ plt.ylabel("Lambda 2")
 plt.title("Optimized Lambda Values")
 plt.legend()
 plt.grid(True)
-plt.show()
-
-
-D0 = -57.55180687718192
-D1 = -1308.2720255202005
-# Définir les paramètres
-G2 = D0 - D1  # Différence de déviance
-df = 17-5     # Différence de degrés de liberté
-
-from scipy.stats import chi2
-# Calculer la p-valeur
-p_value = 1 - chi2.cdf(G2, df)
-print("p-value :", p_value)"""
+plt.show()"""
