@@ -92,9 +92,9 @@ mat_comp_cat_opt3 = np.array([
 # PARTIE 1
 ##########
 
-# calcul_1D.graphique_1D(mat_comp_dog_opt3,croquettes_dog)
+calcul_1D.graphique_1D(mat_comp_dog_opt3,croquettes_dog)
 
-calcul_affichage.graphique_2D(mat_comp_dog_opt3,croquettes_dog,reverse_v1=False,reverse_v2=True)
+#calcul_affichage.graphique_2D(mat_comp_dog_opt3,croquettes_dog,reverse_v1=False,reverse_v2=True)
 
 # calcul_affichage.ellipses(N_cat_1,labels_cat_1,reverse_v1=False,reverse_v2=True)
 
@@ -104,6 +104,6 @@ calcul_affichage.graphique_2D(mat_comp_dog_opt3,croquettes_dog,reverse_v1=False,
 # PARTIE 2
 ##########
 
-calcul_graphique.graphique_IPM(mat_comp_dog_opt3,method = "trust-constr",reverse_v1=False,reverse_v2=True,labels=croquettes_dog)
+# calcul_graphique.graphique_IPM(mat_comp_dog_opt3,method = "trust-constr",reverse_v1=False,reverse_v2=True,labels=croquettes_dog)
 
 # calcul_graphique.deviance_NR_IPM(N,method="trust-constr",reverse_v1=False,reverse_v2=True)
