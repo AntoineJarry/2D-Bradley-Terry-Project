@@ -49,24 +49,26 @@ def IPM_algorithm(N,a0,lam0,method) :
     constraints = {'type': 'eq', 'fun': eq_constraint,'args': (N,)}
 
     # Optimization
-    result = minimize(objective, initial_guess,args = (N,), method=method, constraints=constraints) ## add jacobian and hess
+    result = minimize(fun=objective, x0= initial_guess,args = (N,), method=method, constraints=constraints) ## add jacobian and hess
     n=len(N)
     # Results
     if result.success:
         optimized_params = result.x
         optimal_lambda = optimized_params[:-3].reshape(n, 2)
         optimal_a = optimized_params[-3:]
+        num_params = len(result.x)
         print("Optimal lambda (10 x 2):\n", optimal_lambda)
         print("Optimal a (3 values):\n", optimal_a)
         print("Maximum log-likelihood:", -result.fun)
+        print("Nombre de paramètres du modèle M3 :", num_params)
     else:
         print("Optimization failed:", result.message)
     
     return result
 
 # Tests (à conserver pour le moment, à supprimer à la fin)
-"""
-N = np.array([
+
+"""N = np.array([
   [0, 39, 64, 40, 61, 76, 46],
   [61, 0, 65, 59, 55, 85, 60],
   [36, 35, 0, 31, 25, 41, 35],
@@ -75,6 +77,16 @@ N = np.array([
   [24, 15, 59, 20, 29, 0, 18],
   [54, 40, 65, 72, 63, 82, 0]])
 
+N = np.array([
+    [ 0, 11, 17,  9,  2, 20, 18,  5],
+    [18,  0, 11, 20, 10, 12, 18,  6],
+    [19, 26,  0, 16, 14, 23, 18, 11],
+    [15, 16, 20,  0, 15, 18, 15,  8],
+    [33, 28, 27, 21,  0, 24, 20, 11],
+    [16, 21, 17, 17, 16,  0,  8, 12],
+    [23, 19, 13, 17, 17, 27,  0, 24],
+    [31, 31, 24, 33, 23, 23, 16,  0]
+])
 lambda_0 = starting_point.starting_point(N, False, True)
 a_0 = np.zeros((3,1))
 
@@ -97,5 +109,4 @@ plt.ylabel("Lambda 2")
 plt.title("Optimized Lambda Values")
 plt.legend()
 plt.grid(True)
-plt.show()
-"""
+plt.show()"""

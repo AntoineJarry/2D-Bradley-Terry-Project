@@ -13,7 +13,7 @@ def graphique_1D(N,labels):
     plt.figure(figsize=(8, 6))
     plt.scatter(lambda_, lambda_y, color='blue', alpha=0.4)
 
-    lambda_y_lab = [0, 0, 0, 0, -0.014, 0, 0]
+    lambda_y_lab = np.zeros(len(N))
     # Annotating points with labels
     for i, label in enumerate(labels):
         plt.text(lambda_[i] + 0.01, lambda_y_lab[i] + 0.007, label, fontsize=12)

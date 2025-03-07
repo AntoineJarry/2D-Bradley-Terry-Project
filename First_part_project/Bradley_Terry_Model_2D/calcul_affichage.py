@@ -7,6 +7,15 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 from math import factorial, comb
 
+import sys
+import os
+
+# Récupérer le chemin absolu du dossier racine du projet
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+
+# Ajouter ce chemin à sys.path
+sys.path.append(project_root)
+
 import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.starting_point as starting_point
 import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.NR_algo as NR_algo
 import First_part_project.Bradley_Terry_Model_2D.fonctions as fonctions
@@ -203,15 +212,36 @@ def log_vraisemblance_M1(N, lambd): #lambd : lambda 1D
     return log_L
 
 def deviances(N,reverse_v1,reverse_v2):
+    # Récupération des paramètres Lambda
     param_estim, mat_cov_var = calcul_lambda(N,reverse_v1,reverse_v2)
-    n = int(len(N))
+    n = len(N)
     lambda_ = functions.bradley_terry_iterative(N)
     lambd = param_estim[0:2*n, 0]  # Lambda 2D
     a = param_estim[2*n:2*n+3, 0]  # Coef de Lagrange a
 
-    D0 = -2*(log_vraisemblance_M0(N) - log_vraisemblance_max(N))
-    D1 = -2*(log_vraisemblance_M0(N) - log_vraisemblance_M1(N, lambda_))
-    D2 = -2*(log_vraisemblance_M1(N, lambda_) - log_Vraisemblance_mod_1(N, lambd, a))
-    D_residual = -2*(log_Vraisemblance_mod_1(N, lambd, a) - log_vraisemblance_max(N))
+    # Calcul des log-V des modèles
+    log_v_M0 = log_vraisemblance_M0(N)
+    log_v_max = log_vraisemblance_max(N)
+    log_v_M1 = log_vraisemblance_M1(N, lambda_)
+    log_v_mod_1 = log_Vraisemblance_mod_1(N, lambd, a)
 
-    return f"Déviance du modèle nul : {D0}\n Déviance du modèle en 1D : {D1}\n Déviance du modèle en 2D : {D2}\n Déviance résiduelle : {D_residual}"
+    # Calcul des déviances et du nombre de paramètres de chaque modèle
+    D0 = -2*(log_v_M0 - log_v_max)
+    D1 = -2*(log_v_M0 - log_v_M1)
+    D2 = -2*(log_v_M1 - log_v_mod_1)
+    D_residual = -2*(log_v_mod_1 - log_v_max)
+    n_param_0 = n*(n-1)/2
+    n_param_1 = n-1
+    n_param_2 = n-2
+    n_param_max = n_param_0 - (n_param_1+n_param_2)
+
+    # Calcul des p-valeurs
+    G2_1 = D0 - D1  # Différence de déviance
+    df_1 = n_param_0 - n_param_1     # Différence de degrés de liberté
+    G2_2 = D1 - D2  # Différence de déviance
+    df_2 = n_param_1 - n_param_2     # Différence de degrés de liberté (vaut 1)
+    # Calculer la p-valeur
+    p_valeur_1 = 1 - chi2.cdf(G2_1, df_1)
+    p_valeur_2 = 1 - chi2.cdf(G2_2, df_2)
+
+    return f"Modèle nul : Log-V = {log_v_M0}. Déviance = {D0}. Nombre de paramètres = {n_param_0}\nModèle en 1D : Log-V = {log_v_M1}. Déviance = {D1}. Nombre de paramètres = {n_param_1}. p-valeur = {p_valeur_1} \nModèle en 2D : Log-V = {log_v_mod_1}. Déviance = {D2}. Nombre de paramètres = {n_param_2}. p-valeur = {p_valeur_2}\nModel résiduel : Log-V = {log_v_max}. Déviance = {D_residual}. Nombre de paramètres = {n_param_max}"

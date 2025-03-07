@@ -39,10 +39,11 @@ def newton_raphson(mat_N,lamb_current, a_current, tol=1e-6, max_iter=50):
           mat_cov_var = fonctions.extract_submatrix(np.linalg.inv(np.block([[-fonctions.second_derivative_L_star(mat_N,param_new[0:2*n])-param_new[-1,]*matrice, fonctions.d_phi(param_new[0:2*n])],
                                                              [np.transpose(fonctions.d_phi(param_new[0:2*n])), np.zeros((3,3))]])), n) # moins en haut à gauche propt silvey
           return param_new , mat_cov_var
-
+      mat_cov_var = fonctions.extract_submatrix(np.linalg.inv(np.block([[-fonctions.second_derivative_L_star(mat_N,param_new[0:2*n])-param_new[-1,]*matrice, fonctions.d_phi(param_new[0:2*n])],
+                                                             [np.transpose(fonctions.d_phi(param_new[0:2*n])), np.zeros((3,3))]])), n) # moins en haut à gauche propt silvey
       param_current = param_new
       lamb_current= param_current[:2*n]
       a_current = param_current[-3:]
 
     print("Reached maximum iterations without convergence.")
-    return param_current
+    return param_current, mat_cov_var
