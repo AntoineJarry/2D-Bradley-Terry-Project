@@ -65,5 +65,3 @@ with open("comparison_matrix_dog_opt3.npy", "wb") as f:
 
 with open("comparison_matrix_cat_opt3.npy", "wb") as f:
     pickle.dump(comparison_matrix_cat_opt3_np, f)
-
-
