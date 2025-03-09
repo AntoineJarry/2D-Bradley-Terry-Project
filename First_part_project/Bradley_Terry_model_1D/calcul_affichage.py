@@ -3,7 +3,7 @@ import numpy as np
 import First_part_project.Bradley_Terry_model_1D.Algorithm.functions as functions
 
 
-def graphique_1D(N,labels):
+def graphique_1D(N, labels, affichage=True):
     # Sample data (coordinates of items in two dimensions)
     # Replace these with actual model values
     lambda_ = functions.bradley_terry_iterative(N)
@@ -26,4 +26,6 @@ def graphique_1D(N,labels):
     plt.grid(True)
     plt.axhline(0, color='black', linewidth=0.5)
     plt.axvline(0, color='black', linewidth=0.5)
-    plt.show()
+
+    if affichage:
+        plt.show()

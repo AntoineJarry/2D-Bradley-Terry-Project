@@ -14,10 +14,11 @@ import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.starting_point as 
 import First_part_project.Bradley_Terry_Model_2D.calcul_affichage as calcul_affichage
 import Second_part_project.Bradley_Terry_model_2D.IPM_algorithm as IPM_algorithm
 
-def graphique_IPM(N, method, reverse_v1, reverse_v2, labels):
+
+def graphique_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
     lambda_0 = starting_point.starting_point(N, reverse_v1, reverse_v2)
-    a_0 = np.zeros((3,1))
-    res = IPM_algorithm.IPM_algorithm(N ,a0 = a_0,lam0 = lambda_0, method = method)
+    a_0 = np.zeros((3, 1))
+    res = IPM_algorithm.IPM_algorithm(N, a0=a_0, lam0=lambda_0, method=method)
 
     # Extraire les paramètres optimaux depuis `res`
     n = len(N)  # Taille de la matrice N
@@ -33,19 +34,22 @@ def graphique_IPM(N, method, reverse_v1, reverse_v2, labels):
     plt.ylabel("Lambda 2")
     plt.title("Optimized Lambda Values")
     plt.grid(True)
-    plt.show()
+
+    if affichage:
+        plt.show()
+
 
 def deviance_NR_IPM(N, method, reverse_v1, reverse_v2):
     # Calcul de la vraisemblance de IPM
     lambda_0 = starting_point.starting_point(N, reverse_v1, reverse_v2)
-    a_0 = np.zeros((3,1))
-    n=int(len(N))
-    result = IPM_algorithm.IPM_algorithm(N ,a0 = a_0,lam0 = lambda_0, method = method)
+    a_0 = np.zeros((3, 1))
+    n = int(len(N))
+    result = IPM_algorithm.IPM_algorithm(N, a0=a_0, lam0=lambda_0, method=method)
     num_params = len(result.x)
     D1 = -result.fun
-    
+
     # Calcul de la vraisemblance de Newton-Raphson
-    param_estim, mat_cov_var = calcul_affichage.calcul_lambda(N,reverse_v1,reverse_v2)
+    param_estim, mat_cov_var = calcul_affichage.calcul_lambda(N, reverse_v1, reverse_v2)
     lambd = param_estim[0:2*n, 0]  # Lambda 2D
     a = param_estim[2*n:2*n+3, 0]  # Coef de Lagrange a
     D0 = calcul_affichage.log_Vraisemblance_mod_1(N, lambd, a)
