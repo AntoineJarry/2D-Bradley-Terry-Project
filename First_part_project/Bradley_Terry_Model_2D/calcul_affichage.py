@@ -228,10 +228,10 @@ def deviances(N,reverse_v1,reverse_v2):
     log_v_mod_1 = log_Vraisemblance_mod_1(N, lambd, a)
 
     # Calcul des déviances et du nombre de paramètres de chaque modèle
-    D0 = -2*(log_v_M0 - log_v_max)
-    D1 = -2*(log_v_M0 - log_v_M1)
-    D2 = -2*(log_v_M1 - log_v_mod_1)
-    D_residual = -2*(log_v_mod_1 - log_v_max)
+    D0 = 2*np.absolute(log_v_M0 - log_v_max)
+    D1 = 2*np.absolute(log_v_M0 - log_v_M1)
+    D2 = 2*np.absolute(log_v_M1 - log_v_mod_1)
+    D_residual = 2*np.absolute(log_v_mod_1 - log_v_max)
     n_param_0 = n*(n-1)/2
     n_param_1 = n-1
     n_param_2 = n-2

@@ -120,7 +120,7 @@ mat_comp_cat_opt3 = np.array([
 
 # calcul_affichage.ellipses(N_cat_1,labels_cat_1,reverse_v1=False,reverse_v2=True)
 
-# print(calcul_affichage.deviances(N_cat_2,reverse_v1=False,reverse_v2=True))
+print(calcul_affichage.deviances(LCK,reverse_v1=False,reverse_v2=True))
 
 ##########
 # PARTIE 2
@@ -128,7 +128,7 @@ mat_comp_cat_opt3 = np.array([
 
 # calcul_graphique.graphique_IPM(mat_comp_dog_opt3, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=croquettes_dog_opt3)
 
-# calcul_graphique.deviance_NR_IPM(N,method="trust-constr",reverse_v1=False,reverse_v2=True)
+#calcul_graphique.deviance_NR_IPM(mat_comp_dog_opt3,method="trust-constr",reverse_v1=False,reverse_v2=True)
 
 
 ##########
