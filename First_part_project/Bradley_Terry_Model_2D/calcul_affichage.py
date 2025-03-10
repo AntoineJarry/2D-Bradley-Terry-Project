@@ -30,9 +30,10 @@ def calcul_lambda(N,reverse_v1,reverse_v2):
     return param_estim, mat_cov_var
     #print(param_estim)
 
-def graphique_2D(N,labels,reverse_v1,reverse_v2):
 
-    param_estim, mat_cov_var = calcul_lambda(N,reverse_v1,reverse_v2)
+def graphique_2D(N, labels, reverse_v1, reverse_v2, affichage=True):
+
+    param_estim, mat_cov_var = calcul_lambda(N, reverse_v1, reverse_v2)
     n = len(N)
     # Sample data (coordinates of items in two dimensions)
     # Replace these with actual model values
@@ -54,13 +55,16 @@ def graphique_2D(N,labels,reverse_v1,reverse_v2):
 
     # Add grid and display plot
     plt.grid(True)
-    plt.axhline(0, color='black',linewidth=0.5)
-    plt.axvline(0, color='black',linewidth=0.5)
-    plt.show()
+    plt.axhline(0, color='black', linewidth=0.5)
+    plt.axvline(0, color='black', linewidth=0.5)
 
-def ellipses(N,labels,reverse_v1,reverse_v2):
+    if affichage:
+        plt.show()
 
-    param_estim, mat_cov_var = calcul_lambda(N,reverse_v1,reverse_v2)
+
+def ellipses(N, labels, reverse_v1, reverse_v2):
+
+    param_estim, mat_cov_var = calcul_lambda(N, reverse_v1, reverse_v2)
     n = len(N)
     lambda_1 = param_estim[0:n, 0]  # Coordonnées X
     lambda_2 = param_estim[n:2*n, 0]  # Coordonnées Y
@@ -90,16 +94,15 @@ def ellipses(N,labels,reverse_v1,reverse_v2):
 
         # Calculer la longueur des axes de l'ellipse
         axis_lengths = np.sqrt(chi2_val * eigenvalues)
-        
-        if reverse_v1==True and reverse_v2==True :
+
+        if reverse_v1 == True and reverse_v2 == True:
             angle = np.degrees(np.arctan2(-eigenvectors[1, 0], -eigenvectors[0, 0]))
-        elif reverse_v1 == True and reverse_v2 == False : 
-            angle = np.degrees(np.arctan2(eigenvectors[1, 0], -eigenvectors[0, 0])) 
-        elif reverse_v1 == False and reverse_v2 == True : 
+        elif reverse_v1 == True and reverse_v2 == False:
+            angle = np.degrees(np.arctan2(eigenvectors[1, 0], -eigenvectors[0, 0]))
+        elif reverse_v1 == False and reverse_v2 == True:
             angle = np.degrees(np.arctan2(-eigenvectors[1, 0], eigenvectors[0, 0]))
-        else :
+        else:
             angle = np.degrees(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0]))# Calculer l'angle de rotation de l'ellipse
-        
 
         # Extraire les estimations correspondantes (moyennes)
         mean_2d = np.vstack((lambda_1[idx[0]], lambda_2[idx[0]]))
@@ -116,7 +119,6 @@ def ellipses(N,labels,reverse_v1,reverse_v2):
             label=f'Paire {i+1}'
         )
         ax.add_patch(ellipse)
-
 
     # Ajuster l'affichage
     ax.axhline(0, color='black', linewidth=0.8, linestyle='--')  # Ligne horizontale noire
