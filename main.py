@@ -18,45 +18,27 @@ N = np.array([
 # Donner le label correspondant à la matrice
 labels = ['1', '2', '3', "4", "5", '6', '7']
 
-N_cat_1 = np.array([
-    [ 0, 11, 17,  9,  2, 20, 18,  5],
-    [18,  0, 11, 20, 10, 12, 18,  6],
-    [19, 26,  0, 16, 14, 23, 18, 11],
-    [15, 16, 20,  0, 15, 18, 15,  8],
-    [33, 28, 27, 21,  0, 24, 20, 11],
-    [16, 21, 17, 17, 16,  0,  8, 12],
-    [23, 19, 13, 17, 17, 27,  0, 24],
-    [31, 31, 24, 33, 23, 23, 16,  0]
-])
 
-N_cat_2 = np.array([
-    [ 0, 13, 13, 15,  8, 18, 14, 26, 16, 10, 14, 19, 13, 13,  9, 11, 15],
-    [23,  0, 16, 19, 23, 27, 21, 53, 20, 21, 19, 21, 20, 23, 23, 20, 23],
-    [23, 18,  0, 27, 14, 24, 21, 30, 18, 20, 28, 25, 25, 18, 25, 22, 25],
-    [22, 16, 11,  0, 29, 23, 12, 24, 20, 21, 16, 16, 21, 15, 17, 44, 18],
-    [26, 14, 22, 43,  0, 29, 26, 23, 25, 26, 25, 26, 20, 19, 25, 24, 19],
-    [16, 10, 11, 15,  7,  0, 14, 25, 17, 15, 16, 12, 10, 18, 15, 18, 17],
-    [20, 14, 11, 24, 10, 22,  0, 25, 21, 21, 24, 11, 13,  6, 18, 21, 17],
-    [11, 16,  6,  9, 13, 10, 13,  0, 17, 10,  9, 14, 20, 15, 14, 15, 16],
-    [19, 15, 18, 15,  8, 18, 17, 19,  0, 15, 12, 14, 13, 15, 14, 11, 14],
-    [22, 14,  9, 14,  9, 21, 15, 17, 21,  0, 21, 14, 13, 11, 13, 15, 16],
-    [21, 17,  8, 20, 11, 22, 13, 25, 24, 15,  0, 10,  9,  8, 15, 21, 21],
-    [19, 11, 13, 19, 12, 25, 19, 21, 20, 22, 26,  0, 11, 18, 15, 25, 21],
-    [23, 14, 12, 13, 16, 26, 24, 14, 23, 25, 26, 24,  0, 17, 16, 15, 16],
-    [22, 13, 17, 22, 17, 16, 18, 20, 23, 23, 18, 18, 21,  0, 20, 28, 21],
-    [27, 15,  9, 19,  8, 20, 17, 19, 22, 19, 23, 21, 18, 18,  0, 25, 20],
-    [24, 16, 14, 23, 12, 16, 14, 22, 23, 19, 15, 10, 11,  8, 13,  0, 24],
-    [19, 10,  7, 17, 16, 18, 17, 20, 21, 20, 14, 15, 20, 15, 16, 42,  0]
-])
-labels_cat_1 = ['SPF1', 'SPF4', 'BENCH3', 'SPF3', 'SPF2', 'BENCH4', 'BENCH2', 'BENCH1']
-labels_cat_2 = ['LWFP', 'LDFA', 'HDEA', 'HWEA', 'LDEA', 'HWEP', 'HWFA', 'HWFP', 'LWEP', 'HDEP', 'HDFP', 'LWEA', 'LWFA', 'HDFA', 'M', 'LDFP', 'LDEP']
+Teams = np.array(["BRO", "DK", "DRX", "FOX", "GEN", "HLE", "KDF", "KT", "NS", "T1"])
+
+LCK = np.array([
+  [0, 10, 15, 10, 5, 12, 22, 10, 16, 8],
+  [29, 0, 32, 34, 22, 32, 27, 28, 32, 22],
+  [28, 8, 0, 19, 3, 8, 25, 14, 21, 7],
+  [26, 8, 31, 0, 8, 19, 19, 16, 21, 11],
+  [30, 36, 31, 32, 0, 45, 30, 26, 32, 40],
+  [25, 16, 33, 23, 11, 0, 30, 17, 32, 30],
+  [21, 9, 18, 20, 7, 14, 0, 19, 24, 12],
+  [27, 21, 30, 29, 18, 32, 18, 0, 26, 23],
+  [22, 7, 21, 20, 1, 14, 15, 16, 0, 13],
+  [29, 42, 34, 29, 30, 30, 31, 41, 26, 0]])
 
 #######
-# Matrice de comparaison option 3
+# Matrice de comparaison option 2
 #######
 
 croquettes_dog = ['SPF2', 'SPF4', 'BENCH4', 'SPF1', 'SPF3', 'BENCH1', 'BENCH2', 'BENCH3']
-mat_comp_dog_opt3 = np.array([
+mat_comp_dog_opt2 = np.array([
     [ 0, 28, 24, 33, 21, 11, 20, 27],
     [10,  0, 12, 18, 20,  6, 18, 11],
     [16, 21,  0, 16, 17, 12,  8, 17],
@@ -68,7 +50,7 @@ mat_comp_dog_opt3 = np.array([
 ])
 
 croquettes_cat = ['LWFA', 'LWEA', 'HWEP', 'HDFA', 'HDEA', 'LWFP', 'HWFA', 'HDFP', 'LDFA', 'LDEA', 'LWEP', 'LDEP', 'HDEP', 'LDFP', 'HWEA', 'M', 'HWFP']
-mat_comp_cat_opt3 = np.array([
+mat_comp_cat_opt2 = np.array([
     [ 0, 24, 26, 17, 12, 23, 24, 26, 14, 16, 23, 16, 25, 15, 13, 16, 14],
     [11,  0, 25, 18, 13, 19, 19, 26, 11, 12, 20, 21, 22, 25, 19, 15, 21],
     [10, 12,  0, 18, 11, 16, 14, 16, 10,  7, 17, 17, 15, 18, 15, 15, 25],
@@ -92,9 +74,9 @@ mat_comp_cat_opt3 = np.array([
 # PARTIE 1
 ##########
 
-calcul_1D.graphique_1D(mat_comp_dog_opt3,croquettes_dog)
+# calcul_1D.graphique_1D(mat_comp_dog_opt2,croquettes_dog)
 
-#calcul_affichage.graphique_2D(mat_comp_dog_opt3,croquettes_dog,reverse_v1=False,reverse_v2=True)
+# calcul_affichage.graphique_2D(LCK,Teams,reverse_v1=True,reverse_v2=False)
 
 # calcul_affichage.ellipses(N_cat_1,labels_cat_1,reverse_v1=False,reverse_v2=True)
 
@@ -104,6 +86,6 @@ calcul_1D.graphique_1D(mat_comp_dog_opt3,croquettes_dog)
 # PARTIE 2
 ##########
 
-# calcul_graphique.graphique_IPM(mat_comp_dog_opt3,method = "trust-constr",reverse_v1=False,reverse_v2=True,labels=croquettes_dog)
+# calcul_graphique.graphique_IPM(mat_comp_dog_opt2,method = "trust-constr",reverse_v1=False,reverse_v2=True,labels=croquettes_dog)
 
-# calcul_graphique.deviance_NR_IPM(N,method="trust-constr",reverse_v1=False,reverse_v2=True)
+calcul_graphique.deviance_NR_IPM(LCK,method="trust-constr",reverse_v1=False,reverse_v2=True)
