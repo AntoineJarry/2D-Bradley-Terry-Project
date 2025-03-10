@@ -120,7 +120,7 @@ mat_comp_cat_opt3 = np.array([
 
 # calcul_affichage.ellipses(N_cat_1,labels_cat_1,reverse_v1=False,reverse_v2=True)
 
-print(calcul_affichage.deviances(LCK,reverse_v1=False,reverse_v2=True))
+#print(calcul_affichage.deviances(mat_comp_dog_opt1,reverse_v1=False,reverse_v2=True))
 
 ##########
 # PARTIE 2
@@ -128,7 +128,9 @@ print(calcul_affichage.deviances(LCK,reverse_v1=False,reverse_v2=True))
 
 # calcul_graphique.graphique_IPM(mat_comp_dog_opt3, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=croquettes_dog_opt3)
 
-#calcul_graphique.deviance_NR_IPM(mat_comp_dog_opt3,method="trust-constr",reverse_v1=False,reverse_v2=True)
+# Attention, le test de déviance ne permet que de comparer des modèles emboîtés, ce n'est pas le cas entre IPM et NR 
+# --> utiliser directement la vraisemblance.
+# calcul_graphique.vraisemblance_NR_IPM(mat_comp_dog_opt3,method="trust-constr",reverse_v1=False,reverse_v2=True)
 
 
 ##########

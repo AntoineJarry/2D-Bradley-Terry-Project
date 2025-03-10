@@ -49,7 +49,7 @@ def NR_root(N) :
     return sol.x 
     
 
-croquettes_dog = ['SPF2', 'SPF4', 'BENCH4', 'SPF1', 'SPF3', 'BENCH1', 'BENCH2', 'BENCH3']
+"""croquettes_dog = ['SPF2', 'SPF4', 'BENCH4', 'SPF1', 'SPF3', 'BENCH1', 'BENCH2', 'BENCH3']
 mat_comp_dog_opt3 = np.array([
     [ 0, 28, 24, 33, 21, 11, 20, 27],
     [10,  0, 12, 18, 20,  6, 18, 11],
@@ -61,4 +61,4 @@ mat_comp_dog_opt3 = np.array([
     [14, 26, 23, 19, 16, 11, 18,  0]
 ])
 
-NR_root(mat_comp_dog_opt3)
+NR_root(mat_comp_dog_opt3)"""
