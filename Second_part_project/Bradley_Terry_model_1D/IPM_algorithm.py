@@ -1,5 +1,5 @@
 import numpy as np
-from scipy import minimize
+from scipy.optimize import minimize
 # Objective function: Log-likelihood + penalty terms
 
 
@@ -19,7 +19,7 @@ def eq_constraint(lam):
     return phi
 
 
-def IPM_1D(N, initial_guess, method): 
+def IPM_1D(N, initial_guess, method):
 
     constraints = {'type': 'eq', 'fun': eq_constraint}
     result = minimize(objective, initial_guess, args=(N,), method=method, constraints=constraints)
