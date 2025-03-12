@@ -21,7 +21,7 @@ def graphique_1D_IPM(N, labels, affichage=True):
         plt.text(lambda_x[i] + 0.01, lambda_y_lab[i] + 0.007, label, fontsize=12)
 
     # Add titles and labels
-    plt.title('1D Bradley-Terry Model Representation')
+    plt.title('1D Bradley-Terry Model Representation with IPM')
     plt.xlabel('$\lambda$ (Dimension 1)')
 
     # Add grid and display plot
