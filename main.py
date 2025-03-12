@@ -1,10 +1,15 @@
 # import matplotlib.pyplot as plt
 import Data.dog_matrix as dog
+import Data.cat_matrix as cat
 
-import First_part_project.Bradley_Terry_Model_2D.calcul_affichage as calcul_affichage
+# import 1D
 import First_part_project.Bradley_Terry_model_1D.calcul_affichage as calcul_1D
-import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_graphique
 import Second_part_project.Bradley_Terry_model_1D.calcul_affichage as calcul_1D_IPM
+
+
+# import 2D
+import First_part_project.Bradley_Terry_Model_2D.calcul_affichage as calcul_affichage
+import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_graphique
 
 
 ##########
@@ -44,13 +49,18 @@ import Second_part_project.Bradley_Terry_model_1D.calcul_affichage as calcul_1D_
 # calcul_1D.graphique_1D(mat_comp_dog_opt1, croquettes_dog_opt1, False)
 # plt.savefig("graphes/1D_opt1.png", dpi=300, bbox_inches='tight')
 
-calcul_1D_IPM.graphique_1D_IPM(dog.mat_comp_dog_opt3, dog.croquettes_dog_opt3)
+# calcul_1D_IPM.graphique_1D_IPM(dog.mat_comp_dog_opt3, dog.croquettes_dog_opt3)
 
 
 ### 2D ###
 
-# calcul_graphique.graphique_IPM(mat_comp_dog_opt3, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=croquettes_dog_opt3, affichage=False)
+# calcul_graphique.graphique_IPM(dog.mat_comp_dog_opt3, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=dog.croquettes_dog_opt3, affichage=True)
 # plt.savefig("graphes/2D_opt3.png", dpi=300, bbox_inches='tight')
 
-# calcul_graphique.graphique_IPM(mat_comp_dog_opt1, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=croquettes_dog_opt1, affichage=False)
+# calcul_graphique.graphique_IPM(dog.mat_comp_dog_opt1, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=dog.croquettes_dog_opt1, affichage=True)
 # plt.savefig("graphes/2D_opt1.png", dpi=300, bbox_inches='tight')
+
+
+# Chats
+calcul_1D_IPM.graphique_1D_IPM(cat.mat_comp_cat_opt1, cat.croquettes_cat_opt1)
+calcul_graphique.graphique_IPM(cat.mat_comp_cat_opt1, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=cat.croquettes_cat_opt1, affichage=True)

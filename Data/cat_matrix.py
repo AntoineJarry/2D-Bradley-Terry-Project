@@ -6,11 +6,11 @@ import numpy as np
 
 
 # Labels
-croquettes_cat_opt1 = ['HDEA', 'HDEP', 'HDFA', 'HDFP', 'HWEA', 'HWEP', 'HWFA', 'HWFP', 'LDEA', 'LDEP', 'LDFA', 'LDFP', 'LWEA', 'LWEP', 'LWFA', 'LWFP','M']
+croquettes_opt1 = ['HDEA', 'HDEP', 'HDFA', 'HDFP', 'HWEA', 'HWEP', 'HWFA', 'HWFP', 'LDEA', 'LDEP', 'LDFA', 'LDFP', 'LWEA', 'LWEP', 'LWFA', 'LWFP','M']
 
 
 # Matrix
-mat_comp_cat_opt1 = np.array([
+mat_comp_opt1 = np.array([
     [   0.  , 1120.07, 1024.73, 1579.53, 1693.24, 1387.1 , 1175.44, 1394.53,  830.44,  1282.91, 1008.31, 1342.53, 1349.23, 1044.58, 1514.23, 1272.52, 1276.79],
     [ 689.93,    0.  ,  717.74,  891.97,  947.02, 1149.35,  849.83, 1003.66,  551.88,   963.72,  803.86,  953.99,  965.32, 1166.06,  776.2 , 1034.44,  771.65],
     [1138.27, 1138.26,    0.  ,  982.99, 1301.5 ,  979.04,  931.91, 1178.44,  981.66,  1336.66,  999.03, 1549.22, 1173.07, 1464.09, 1236.28, 1144.31, 1170.82],
@@ -37,11 +37,11 @@ mat_comp_cat_opt1 = np.array([
 
 
 # Labels
-croquettes_cat_opt3 = ['LWFA', 'LWEA', 'HWEP', 'HDFA', 'HDEA', 'LWFP', 'HWFA', 'HDFP', 'LDFA', 'LDEA', 'LWEP', 'LDEP', 'HDEP', 'LDFP', 'HWEA', 'M', 'HWFP']
+croquettes_opt3 = ['LWFA', 'LWEA', 'HWEP', 'HDFA', 'HDEA', 'LWFP', 'HWFA', 'HDFP', 'LDFA', 'LDEA', 'LWEP', 'LDEP', 'HDEP', 'LDFP', 'HWEA', 'M', 'HWFP']
 
 
 # Matrix
-mat_comp_cat_opt3 = np.array([
+mat_comp_opt3 = np.array([
     [ 0, 24, 26, 17, 12, 23, 24, 26, 14, 16, 23, 16, 25, 15, 13, 16, 14],
     [11,  0, 25, 18, 13, 19, 19, 26, 11, 12, 20, 21, 22, 25, 19, 15, 21],
     [10, 12,  0, 18, 11, 16, 14, 16, 10,  7, 17, 17, 15, 18, 15, 15, 25],

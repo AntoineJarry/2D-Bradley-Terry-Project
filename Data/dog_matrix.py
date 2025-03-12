@@ -6,11 +6,11 @@ import numpy as np
 
 
 # Labels
-croquettes_dog_opt1 = ['BENCH1', 'BENCH2', 'BENCH3', 'BENCH4', 'SPF1', 'SPF2', 'SPF3', 'SPF4']
+croquettes_opt1 = ['BENCH1', 'BENCH2', 'BENCH3', 'BENCH4', 'SPF1', 'SPF2', 'SPF3', 'SPF4']
 
 
 # Matrix
-mat_comp_dog_opt1 = np.array([
+mat_comp_opt1 = np.array([
     [   0.  , 2627.31, 4646.45, 5213.66, 7135.71, 4673.5 , 6741.33, 6943.78],
     [4556.69,    0.  , 2231.8 , 5303.63, 5335.36, 2759.81, 2521.65, 3158.33],
     [2329.55, 3188.2 ,   0.   , 3446.43, 5088.27, 3077.23, 2930.57, 6433.18],
@@ -28,11 +28,11 @@ mat_comp_dog_opt1 = np.array([
 
 
 # Labels
-croquettes_dog_opt3 = ['SPF2', 'SPF4', 'BENCH4', 'SPF1', 'SPF3', 'BENCH1', 'BENCH2', 'BENCH3']
+croquettes_opt3 = ['SPF2', 'SPF4', 'BENCH4', 'SPF1', 'SPF3', 'BENCH1', 'BENCH2', 'BENCH3']
 
 
 # Matrix
-mat_comp_dog_opt3 = np.array([
+mat_comp_opt3 = np.array([
     [ 0, 28, 24, 33, 21, 11, 20, 27],
     [10,  0, 12, 18, 20,  6, 18, 11],
     [16, 21,  0, 16, 17, 12,  8, 17],
