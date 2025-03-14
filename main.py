@@ -49,6 +49,8 @@ mat_comp_dog_opt1 = np.array([
     [1569.22, 3490.67, 3401.82, 1851.29, 2916.12, 2398.64, 4384.6 ,     0.  ],
     ])
 
+mat_comp_dog_opt1 = np.rint(mat_comp_dog_opt1).astype(int)
+
 croquettes_cat_opt1 = ['HDEA', 'HDEP', 'HDFA', 'HDFP', 'HWEA', 'HWEP', 'HWFA', 'HWFP', 'LDEA', 'LDEP', 'LDFA', 'LDFP', 'LWEA', 'LWEP', 'LWFA', 'LWFP','M']
 
 mat_comp_cat_opt1 = np.array([
@@ -71,7 +73,7 @@ mat_comp_cat_opt1 = np.array([
     [ 808.21, 1055.36, 1037.19, 1218.5 , 1253.12, 1026.33, 1147.4 ,  974.71,  685.89,  1000.75,  861.48, 1246.99, 1118.43, 1249.86, 1025.  , 1570.75,    0.  ]
 ])
 
-
+mat_comp_cat_opt1 = np.rint(mat_comp_cat_opt1).astype(int)
 
 #######
 # Matrice de comparaison option 3
@@ -120,7 +122,7 @@ mat_comp_cat_opt3 = np.array([
 
 # calcul_affichage.ellipses(N_cat_1,labels_cat_1,reverse_v1=False,reverse_v2=True)
 
-#print(calcul_affichage.deviances(mat_comp_dog_opt1,reverse_v1=False,reverse_v2=True))
+# print(calcul_affichage.deviances(mat_comp_dog_opt3,reverse_v1=False,reverse_v2=True))
 
 ##########
 # PARTIE 2
@@ -130,7 +132,7 @@ mat_comp_cat_opt3 = np.array([
 
 # Attention, le test de déviance ne permet que de comparer des modèles emboîtés, ce n'est pas le cas entre IPM et NR 
 # --> utiliser directement la vraisemblance.
-# calcul_graphique.vraisemblance_NR_IPM(mat_comp_dog_opt3,method="trust-constr",reverse_v1=False,reverse_v2=True)
+# calcul_graphique.vraisemblance_NR_IPM(mat_comp_dog_opt1,method="trust-constr",reverse_v1=False,reverse_v2=True)
 
 
 ##########

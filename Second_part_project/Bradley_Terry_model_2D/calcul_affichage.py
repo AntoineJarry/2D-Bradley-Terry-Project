@@ -24,6 +24,12 @@ def graphique_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
     n = len(N)  # Taille de la matrice N
     optimized_params = res.x  # Prendre les valeurs optimisées
     optimal_lambda = optimized_params[:-3].reshape(n, 2)  # Reshape en (n,2)
+    optimal_a = optimized_params[-3:]
+    num_params = len(res.x)
+    print("Optimal lambda (10 x 2):\n", optimal_lambda)
+    print("Optimal a (3 values):\n", optimal_a)
+    print("Maximum log-likelihood:", -res.fun)
+    print("Nombre de paramètres du modèle M3 :", num_params)
 
     # Annotating points with labels
     for i, label in enumerate(labels):
@@ -39,30 +45,19 @@ def graphique_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
         plt.show()
 
 
-def deviance_NR_IPM(N, method, reverse_v1, reverse_v2):
+def vraisemblance_NR_IPM(N, method, reverse_v1, reverse_v2):
     # Calcul de la vraisemblance de IPM
     lambda_0 = starting_point.starting_point(N, reverse_v1, reverse_v2)
     a_0 = np.zeros((3, 1))
     n = int(len(N))
     result = IPM_algorithm.IPM_algorithm(N, a0=a_0, lam0=lambda_0, method=method)
-    num_params = len(result.x)
-    D1 = -result.fun
+    logv_ipm = -result.fun
 
     # Calcul de la vraisemblance de Newton-Raphson
     param_estim, mat_cov_var = calcul_affichage.calcul_lambda(N, reverse_v1, reverse_v2)
     lambd = param_estim[0:2*n, 0]  # Lambda 2D
     a = param_estim[2*n:2*n+3, 0]  # Coef de Lagrange a
-    D0 = calcul_affichage.log_Vraisemblance_mod_1(N, lambd, a)
+    logv_NR = calcul_affichage.log_Vraisemblance_mod_1(N, lambd, a)
 
-    # Définir les paramètres
-    G2 = D0 - D1  # Différence de déviance
-    df = 2*num_params+3 - (n-2)     # Différence de degrés de liberté
-    # Calculer la p-valeur
-    p_value = 1 - chi2.cdf(G2, df)
-    print("\n_____________________________________________________")
-    print("INFOS DÉVIANCES\n")
-    print("Nombre de paramètres du modèle Newton-Raphson :", n-2)
-    print("Nombre de paramètres du modèle IPM :", num_params)
-    print("Log-vraisemblance Maximum IPM:", D1)
-    print("Log-vraisemblance Newton-Raphson:", D0)
-    print("Test du rapport de vraisemblance : p-valeur =", p_value)
+    print("Log-vraisemblance Maximum IPM:", logv_ipm)
+    print("Log-vraisemblance Newton-Raphson:", logv_NR)
