@@ -1,11 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.manifold import MDS, Isomap, TSNE
+import time
+from sklearn.manifold import MDS, TSNE
 import umap
-import pickle
-from sklearn.decomposition import PCA
 import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.starting_point as starting_point
 import Second_part_project.Bradley_Terry_model_2D.Reduction_model as Reduction_model
+import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.NR_algo as NR_algo
+np.random.seed(42)  # Global seed for reproducibility
 
 croquettes_dog_opt3 = ['SPF2', 'SPF4', 'BENCH4', 'SPF1', 'SPF3', 'BENCH1', 'BENCH2', 'BENCH3']
 mat_comp_dog_opt3 = np.array([
@@ -19,74 +20,95 @@ mat_comp_dog_opt3 = np.array([
     [14, 26, 23, 19, 16, 11, 18,  0]
 ])
 
-dist_matrix = starting_point.matrice_Q(mat_comp_dog_opt3) # Our distance matrix is defined as in the first part of the project
-## Maybe later we can try to used another distance because is probably not the best here ?
-Reduction_model.check_distance_matrix(dist_matrix) ## Important to test this and look if we have any problem
+dist_matrix = starting_point.matrice_Q(mat_comp_dog_opt3)
+Reduction_model.check_distance_matrix(dist_matrix)
 
-# 1. UMAP
-reducer = umap.UMAP(n_components=2, metric='precomputed',min_dist=0.6,n_neighbors = 6) # Hyper paramètre a tester
-X_umap = reducer.fit_transform(dist_matrix)
+methods = []
+time_results = {}
+sum_results = {}
 
-# 2. t-SNE
-tsne = TSNE(n_components=2, metric="precomputed",perplexity=6,init='random',method = 'exact') # Hyper paramètre à ajuster aussi
-X_tsne = tsne.fit_transform(dist_matrix)
+# UMAP with different n_neighbors
+for n_neighbors in [2, 4, 6]:
+    start_time = time.time()
+    reducer = umap.UMAP(n_components=2, metric='precomputed', init='random', min_dist=0.5,
+                        n_neighbors=n_neighbors, n_epochs=5000, random_state=42)
+    X_umap = reducer.fit_transform(dist_matrix)
+    elapsed_time = time.time() - start_time
+    methods.append((f"UMAP (n_neighbors={n_neighbors})", X_umap))
+    time_results[f"UMAP-{n_neighbors}"] = elapsed_time
+    sum_results[f"UMAP-{n_neighbors}"] = (
+        sum(X_umap[:, 0]), sum(X_umap[:, 1]), sum(X_umap[:, 0] * X_umap[:, 1])
+    )
 
-# 3. PCA not useful here because PCA need features here. So we will keep four method that we will explain when presenting
+# t-SNE with different perplexities
+for perplexity in [2, 4, 6]:
+    start_time = time.time()
+    tsne = TSNE(n_components=2, metric="precomputed", perplexity=perplexity, init='random',
+                method='exact', max_iter=5000, random_state=42)
+    X_tsne = tsne.fit_transform(dist_matrix)
+    elapsed_time = time.time() - start_time
+    methods.append((f"t-SNE (perplexity={perplexity})", X_tsne))
+    time_results[f"tSNE-{perplexity}"] = elapsed_time
+    sum_results[f"tSNE-{perplexity}"] = (
+        sum(X_tsne[:, 0]), sum(X_tsne[:, 1]), sum(X_tsne[:, 0] * X_tsne[:, 1])
+    )
 
-#5. Metric MDS 
-Mmds = MDS(n_components=2, dissimilarity="precomputed",metric=True,n_init = 50,n_jobs = -1,normalized_stress=False) # For compare to our starting point which is a MDS 
-X_Mmds = Mmds.fit_transform(dist_matrix)
+# Classical MDS
+start_time = time.time()
+mds = starting_point.starting_point(mat_comp_dog_opt3, reverse_v1=False, reverse_v2=False)
+mds = np.hstack((mds[:len(mat_comp_dog_opt3)], mds[len(mat_comp_dog_opt3):]))
+elapsed_time = time.time() - start_time
+methods.append(("Classical MDS", mds))
+time_results["MDS"] = elapsed_time
+sum_results["MDS"] = (
+    sum(mds[:, 0]), sum(mds[:, 1]), sum(mds[:, 0] * mds[:, 1])
+)
 
-
-#6. classical MDS
-mds = starting_point.starting_point(mat_comp_dog_opt3,reverse_v1=False,reverse_v2=False)
-
-
-#7. Non metric MDS 
-
-Nmds = MDS(n_components=2, dissimilarity="precomputed",metric=False,n_init = 50,n_jobs = -1,normalized_stress=True) # For compare to our starting point which is a MDS 
+# Non-metric MDS
+start_time = time.time()
+Nmds = MDS(n_components=2, dissimilarity="precomputed", metric=False, n_init=50, n_jobs=1,
+           verbose=1, normalized_stress=True, random_state=42)
 X_Nmds = Nmds.fit_transform(dist_matrix)
+elapsed_time = time.time() - start_time
+methods.append(("Non-metric MDS", X_Nmds))
+time_results["NonMetric-MDS"] = elapsed_time
+sum_results["NonMetric-MDS"] = (
+    sum(X_Nmds[:, 0]), sum(X_Nmds[:, 1]), sum(X_Nmds[:, 0] * X_Nmds[:, 1])
+)
+"""""
+# Création et sauvegarde d'une image par modèle
+for title, data in methods:
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.scatter(data[:, 0], data[:, 1])
+    for j, label in enumerate(croquettes_dog_opt3):
+        ax.text(data[j, 0], data[j, 1], label, fontsize=9)
+    ax.set_title(title)
+    ax.set_xlabel("Dimension 1")
+    ax.set_ylabel("Dimension 2")
+    plt.tight_layout()
+    filename = f"{title.replace(' ', '_').replace('(', '').replace(')', '')}.png"
+    plt.savefig(filename, dpi=300, bbox_inches='tight')
+    plt.close(fig)  # Ferme la figure pour libérer la mémoire
 
-teams = croquettes_dog_opt3
+# Affichage des temps de calcul et des sommes
+print("Computation times:")
+for method, elapsed_time in time_results.items():
+    print(f"{method}: {elapsed_time:.4f} seconds")
 
-# Plotting the results with labels
-fig, axs = plt.subplots(3, 2, figsize=(10, 10))
+print("\nSum results:")
+for method, sums in sum_results.items():
+    print(f"{method}: sum_x={sums[0]:.4f}, sum_y={sums[1]:.4f}, sum_xy={sums[2]:.4f}")
+"""""
+for title, data in methods:
+    # Use vstack to create a 1D column vector (lambda_0) from x and y coordinates
+    lambda_0 = np.vstack((data[:, 0], data[:, 1])).flatten()
+    lambda_0 = lambda_0.reshape(-1,1)  # Stack x and y values to form lambda_0
+    print(lambda_0)
+    a_0 = np.zeros((3, 1))  # Initialize a_0 (adjust according to your algorithm requirements)
 
+    # Apply Newton-Raphson algorithm with the flattened data
+    param_estim_mds, mat_cov_var_mds = NR_algo.newton_raphson(mat_comp_dog_opt3, lambda_0, a_0)
+    
+    # Print or store the results as needed
+    print(f"Method: {title}, Estimated Params: {param_estim_mds}, Covariance Matrix: {mat_cov_var_mds}")
 
-# UMAP plot
-axs[0, 0].scatter(X_umap[:, 0], X_umap[:, 1])
-for i, label in enumerate(teams):
-    axs[0, 0].text(X_umap[i, 0], X_umap[i, 1], label, fontsize=9)
-axs[0, 0].set_title("UMAP - 2D")
-
-# t-SNE plot
-axs[0, 1].scatter(X_tsne[:, 0], X_tsne[:, 1])
-for i, label in enumerate(teams):
-    axs[0, 1].text(X_tsne[i, 0], X_tsne[i, 1], label, fontsize=9)
-axs[0, 1].set_title("t-SNE - 2D")
-
-
-
-# MDS plot
-mds = np.hstack((mds[0:len(mat_comp_dog_opt3)], mds[len(mat_comp_dog_opt3):]))
-axs[1, 1].scatter(mds[:, 0], mds[:, 1])
-for i, label in enumerate(teams):
-    axs[1, 1].text(mds[i, 0], mds[i, 1], label, fontsize=9)
-axs[1, 1].set_title("MDS - 2D")
-
-# Metric MDS plot
-
-axs[2, 0].scatter(X_Mmds[:, 0], X_Mmds[:, 1])
-for i, label in enumerate(teams):
-    axs[2, 0].text(X_Mmds[i, 0], X_Mmds[i, 1], label, fontsize=9)
-axs[2, 0].set_title(" Metric MDS - 2D")
-
-# Non metric MDS plot
-
-axs[2, 1].scatter(-X_Nmds[:, 0], X_Nmds[:, 1])
-for i, label in enumerate(teams):
-    axs[2, 1].text(-X_Nmds[i, 0], X_Nmds[i, 1], label, fontsize=9)
-axs[2, 1].set_title(" Non-Metric MDS - 2D")
-
-plt.tight_layout()
-plt.show()
