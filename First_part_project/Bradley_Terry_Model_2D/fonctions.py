@@ -162,7 +162,7 @@ def second_derivative_L_star(mat_N,lamb):
 
     n_total = mat_N.shape[0]  # Nombre total de lignes dans mat_N
     hessian = np.zeros((n_total * 2, n_total * 2))  # Matrice de Hessian pour stocker nos dérivées secondes
-
+    lamb = np.atleast_2d(lamb).T if lamb.ndim == 1 else lamb
     lamb = np.hstack((lamb[0:n_total,:], lamb[n_total:2*n_total,:]))  # retransforme en une matrice 2 colonnes  pour l'indexation plus clair
 
     for k in range(n_total):
@@ -218,7 +218,10 @@ def d_phi(lamb):
     vec0 = np.zeros((n, 1))        # Vecteur colonne de 0 (0_n)
     vec_lamb1 = lamb[0:n,]  # Vecteur colonne pour lamb[:, 1]
     vec_lamb2 = lamb[n:2*n,] # Vecteur colonne pour lamb[:, 0]
-
+    vec_lamb2 = vec_lamb2.reshape(-1, 1)
+    vec_lamb1 = vec_lamb1.reshape(-1, 1)
+    #print(f"vec0 shape: {vec0.shape}, vec1 shape: {vec1.shape}, vec_lamb1 shape: {vec_lamb1.shape}, vec_lamb2 shape: {vec_lamb2.shape}")
+    
     # Création des deux lignes avec np.hstack
     ligne1 = np.hstack((vec1, vec0, vec_lamb2))  # Première ligne
     ligne2 = np.hstack((vec0, vec1, vec_lamb1))  # Deuxième ligne

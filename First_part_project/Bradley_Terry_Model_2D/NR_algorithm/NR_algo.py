@@ -32,7 +32,7 @@ def newton_raphson(mat_N,lamb_current, a_current, tol=1e-6, max_iter=250):
 
       # Afficher les détails à chaque étape
       # print(f"Iteration {i+1}: param_current = {param_current}, param_new = {param_new}")
-
+      # print("param_new: ",param_new)
       # Vérifier la convergence (arrêt si la différence est petite)
       if np.all(abs(param_new - param_current) < tol):
           print(f"Converged after {i+1} iterations")
