@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 import First_part_project.Bradley_Terry_Model_2D.fonctions as fonctions
 
-def newton_raphson(mat_N,lamb_current, a_current, tol=1e-6, max_iter=50):
+def newton_raphson(mat_N,lamb_current, a_current, tol=1e-6, max_iter=250):
     """
     Implémentation de l'algorithme de Newton-Raphson page 251
 
