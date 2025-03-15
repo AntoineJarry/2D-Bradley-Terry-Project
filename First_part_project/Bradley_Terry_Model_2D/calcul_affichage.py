@@ -177,15 +177,42 @@ def log_Vraisemblance_mod_1(N, lambd, a): # lambd : lambda 2D
     #lambd = param_estim[0:2*n, 0]  # Lambda
     #a = param_estim[2*n:2*n+3, 0]  # Coef de Lagrange a
     log_Vraisemblance = 0
+    log_Vraisemblance2 = 0
     for i in range(N.shape[0]):
         for j in range(i+1, N.shape[1]):
           if j != i:
               nij = N[i, j]
               mij = N[i, j] + N[j, i]
               pi_ij = calcul_pi_ij(N,lambd, i, j)
+              log_Vraisemblance2 += nij*np.log(pi_ij)+ (mij-nij)*np.log(1-pi_ij)
               log_Vraisemblance += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
     log_Vraisemblance += np.sum(a * fonctions.phi(lambd))
+    log_Vraisemblance2 += np.sum(a * fonctions.phi(lambd))
+    print(np.sum(a * fonctions.phi(lambd)))
+    print(log_Vraisemblance)
+    print(log_Vraisemblance2)
     return log_Vraisemblance
+
+N = np.array([
+  [0, 39, 64, 40, 61, 76, 46],
+  [61, 0, 65, 59, 55, 85, 60],
+  [36, 35, 0, 31, 25, 41, 35],
+  [60, 41, 69, 0, 41, 80, 28],
+  [39, 45, 75, 59, 0, 71, 37],
+  [24, 15, 59, 20, 29, 0, 18],
+  [54, 40, 65, 72, 63, 82, 0]])
+
+# Récupération des paramètres Lambda
+param_estim, mat_cov_var = calcul_lambda(N,False,True)
+n = len(N)
+lambda_ = functions.bradley_terry_iterative(N)
+lambd = param_estim[0:2*n, 0]  # Lambda 2D
+a = param_estim[2*n:2*n+3, 0]  # Coef de Lagrange a
+log_Vraisemblance_mod_1(N = N,lambd = lambd, a = a)
+
+
+
+
 
 def log_vraisemblance_M0(N):
     log_L = 0
