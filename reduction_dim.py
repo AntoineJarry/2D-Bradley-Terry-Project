@@ -2,10 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 from sklearn.manifold import MDS, TSNE
+from scipy.optimize import minimize
 import umap
 import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.starting_point as starting_point
 import Second_part_project.Bradley_Terry_model_2D.Reduction_model as Reduction_model
 import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.NR_algo as NR_algo
+import Second_part_project.Bradley_Terry_model_2D.IPM_algorithm as IPM_algorithm
+
 np.random.seed(42)  # Global seed for reproducibility
 
 croquettes_dog_opt3 = ['SPF2', 'SPF4', 'BENCH4', 'SPF1', 'SPF3', 'BENCH1', 'BENCH2', 'BENCH3']
@@ -75,6 +78,7 @@ time_results["NonMetric-MDS"] = elapsed_time
 sum_results["NonMetric-MDS"] = (
     sum(X_Nmds[:, 0]), sum(X_Nmds[:, 1]), sum(X_Nmds[:, 0] * X_Nmds[:, 1])
 )
+
 """""
 # Création et sauvegarde d'une image par modèle
 for title, data in methods:
@@ -98,7 +102,9 @@ for method, elapsed_time in time_results.items():
 print("\nSum results:")
 for method, sums in sum_results.items():
     print(f"{method}: sum_x={sums[0]:.4f}, sum_y={sums[1]:.4f}, sum_xy={sums[2]:.4f}")
-"""""
+
+NR METHODS
+
 for title, data in methods:
     # Use vstack to create a 1D column vector (lambda_0) from x and y coordinates
     lambda_0 = np.vstack((data[:, 0], data[:, 1])).flatten()
@@ -111,4 +117,64 @@ for title, data in methods:
     
     # Print or store the results as needed
     print(f"Method: {title}, Estimated Params: {param_estim_mds}, Covariance Matrix: {mat_cov_var_mds}")
+"""""
 
+
+time_results = {}  # Dictionary to store computation times
+iteration_results = {}  # Dictionary to store number of iterations
+param_results = {}  # Dictionary to store estimated parameters
+successful_methods = {}  # This dictionary will track if a method was successful
+
+# Loop through methods and use different initial points
+for title, data in methods:
+    try:
+        # Use vstack to create a 1D column vector (lambda_0) from x and y coordinates
+        lam_0 = np.vstack((data[:, 0], data[:, 1])).flatten()  # Flatten to 1D vector
+        print(f"Initial lambda_0 for {title}: {lam_0}")
+        
+        a0 = np.zeros((3, 1))  # Initialize a_0 (adjust according to your algorithm requirements)
+        initial_guess = np.concatenate([lam_0, a0.flatten()])  # Concatenate x, y, and a0
+        
+        # Define constraints (adjust based on your requirements)
+        constraints = {'type': 'eq', 'fun': IPM_algorithm.eq_constraint, 'args': (mat_comp_dog_opt3,)}
+        
+        # Track optimization time
+        start_time = time.time()
+
+        # Run the optimization
+        result = minimize(fun=IPM_algorithm.objective, 
+                          x0=initial_guess, 
+                          args=(mat_comp_dog_opt3,), 
+                          method='trust-constr', 
+                          constraints=constraints)
+        
+        # If the optimization runs successfully, store results
+        elapsed_time = time.time() - start_time
+        time_results[title] = elapsed_time  # Store time taken
+        iteration_results[title] = result.nit  # Number of iterations
+        param_results[title] = result.x  # Optimized parameters
+        
+        # Mark the method as successful
+        successful_methods[title] = True
+        
+        # Print the results for each method
+        print(f"Method: {title}")
+        print(f"Optimized Params: {result.x}")
+        print(f"Computation Time: {elapsed_time:.4f} seconds")
+        print(f"Iterations: {result.nit}")
+        print('-' * 50)
+    
+    except Exception as e:
+        # Handle errors gracefully by printing an error message
+        print(f"Method {title} failed with error: {e}")
+        print("Skipping to the next method...\n")
+        
+        # Mark the method as failed
+        successful_methods[title] = False
+        continue  # Skip the current iteration and continue with the next method
+
+# Print summary of results only for successful methods
+print("\nSummary of results:")
+for title in successful_methods:
+    if successful_methods[title]:  # Only print for successful methods
+        print(f"{title} - Time: {time_results[title]:.4f}s, Iterations: {iteration_results[title]}, Params: {param_results[title]}")
