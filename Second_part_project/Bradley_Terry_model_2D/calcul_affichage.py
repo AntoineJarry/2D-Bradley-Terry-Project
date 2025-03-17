@@ -73,6 +73,7 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
     # Extraire les paramètres optimaux depuis `res`
     n = len(N)  # Taille de la matrice N
     optimized_params = res.x  # Prendre les valeurs optimisées
+    print(optimized_params)
     optimal_lambda = optimized_params[:-3].reshape(n,2)[:, ::-1]  # Swap columns
     optimal_lambda = optimal_lambda.T.flatten()[:, np.newaxis]  # Ensures column vector
     optimal_a = optimized_params[-3:]
