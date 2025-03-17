@@ -79,13 +79,13 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
     #print("optimized_params :",optimized_params)
 
     # Calcul mat_cov_var Option 1 :
-    """matrice = np.block([[np.zeros((n,n)),np.eye(n)],
+    matrice = np.block([[np.zeros((n,n)),np.eye(n)],
                        [np.eye(n),np.zeros((n,n))]]) # matrice taille 2n carré
     mat_cov_var = fonctions.extract_submatrix(np.linalg.inv(np.block([[-fonctions.second_derivative_L_star(N,optimal_lambda[0:2*n])-optimal_lambda[-1,]*matrice, fonctions.d_phi(optimal_lambda[0:2*n])],
                                                              [np.transpose(fonctions.d_phi(optimal_lambda[0:2*n])), np.zeros((3,3))]])), n) # moins en haut à gauche propt silvey
-    """
+    
     # Calcul mat_cov_var Option 2 :
-    optimal_lambda = optimized_params[:-3].reshape(n, 2)
+    """optimal_lambda = optimized_params[:-3].reshape(n, 2)
     mat_cov_var = fonctions.extract_submatrix(
         np.linalg.inv(np.block([
             [-fonctions.second_derivative_L_star(N, optimal_lambda.flatten()) - optimal_a[-1] * np.block([[np.zeros((n,n)), np.eye(n)], [np.eye(n), np.zeros((n,n))]]), 
@@ -93,7 +93,7 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
             [np.transpose(fonctions.d_phi(optimal_lambda.flatten())), np.zeros((3,3))]
         ])), 
         n
-    )
+    )"""
 
     optimal_lambda = optimized_params[:-3].reshape(2*n, 1)
     lambda_1 = optimal_lambda[0:n, 0]  # Coordonnées X
@@ -116,7 +116,7 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
 
         # Calculer les valeurs propres et vecteurs propres de la matrice de covariance
         eigenvalues, eigenvectors = np.linalg.eigh(cov_2x2)
-        #print("eigenvalues :", eigenvalues)
+        print("eigenvalues :", eigenvalues)
         
         # Calculer la longueur des axes de l'ellipse
         axis_lengths = np.sqrt(chi2_val * eigenvalues)
@@ -168,7 +168,7 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
     plt.show()
 
 # Test ellipses IPM()
-'''N = np.array([
+N = np.array([
   [0, 39, 64, 40, 61, 76, 46],
   [61, 0, 65, 59, 55, 85, 60],
   [36, 35, 0, 31, 25, 41, 35],
@@ -178,4 +178,4 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
   [54, 40, 65, 72, 63, 82, 0]])
 
 labels = ["1","2","3","4","5","6","7"]
-ellipses_IPM(N,"trust-constr",False,True,labels)'''
+ellipses_IPM(N,"trust-constr",False,True,labels)
