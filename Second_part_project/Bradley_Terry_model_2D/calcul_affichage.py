@@ -87,6 +87,7 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
                                                              [np.transpose(fonctions.d_phi(optimal_lambda[0:2*n])), np.zeros((3,3))]])), n) # moins en haut à gauche propt silvey
     """"
     # Calcul mat_cov_var Option 2 :
+    """
     optimal_lambda = optimized_params[:-3].reshape(n, 2)
     mat_cov_var = fonctions.extract_submatrix(
         np.linalg.inv(np.block([
@@ -123,7 +124,6 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
 
         # Calculer les valeurs propres et vecteurs propres de la matrice de covariance
         eigenvalues, eigenvectors = np.linalg.eigh(cov_2x2)
-
         # Calculer la longueur des axes de l'ellipse
         axis_lengths = np.sqrt(chi2_val * eigenvalues)
 
