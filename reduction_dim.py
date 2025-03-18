@@ -79,7 +79,7 @@ sum_results["NonMetric-MDS"] = (
     sum(X_Nmds[:, 0]), sum(X_Nmds[:, 1]), sum(X_Nmds[:, 0] * X_Nmds[:, 1])
 )
 
-"""""
+
 # Création et sauvegarde d'une image par modèle
 for title, data in methods:
     fig, ax = plt.subplots(figsize=(6, 6))
@@ -103,7 +103,8 @@ print("\nSum results:")
 for method, sums in sum_results.items():
     print(f"{method}: sum_x={sums[0]:.4f}, sum_y={sums[1]:.4f}, sum_xy={sums[2]:.4f}")
 
-NR METHODS
+"""""
+"NR METHODS"
 
 for title, data in methods:
     # Use vstack to create a 1D column vector (lambda_0) from x and y coordinates
@@ -117,9 +118,8 @@ for title, data in methods:
     
     # Print or store the results as needed
     print(f"Method: {title}, Estimated Params: {param_estim_mds}, Covariance Matrix: {mat_cov_var_mds}")
+
 """""
-
-
 time_results = {}  # Dictionary to store computation times
 iteration_results = {}  # Dictionary to store number of iterations
 param_results = {}  # Dictionary to store estimated parameters
@@ -162,6 +162,7 @@ for title, data in methods:
         print(f"Optimized Params: {result.x}")
         print(f"Computation Time: {elapsed_time:.4f} seconds")
         print(f"Iterations: {result.nit}")
+        print(f"Log-vraisemblance : {result.fun}")
         print('-' * 50)
     
     except Exception as e:
