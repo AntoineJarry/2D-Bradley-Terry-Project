@@ -20,9 +20,36 @@ import Second_part_project.Bradley_Terry_model_2D.IPM_algorithm as IPM_algorithm
 
 def graphique_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
     lambda_0 = starting_point.starting_point(N, reverse_v1, reverse_v2)
+    lambda_0.reshape(2*len(N),1)
     a_0 = np.zeros((3, 1))
     res = IPM_algorithm.IPM_algorithm(N, a0=a_0, lam0=lambda_0, method=method)
 
+    # Extraire les paramètres optimaux depuis `res`
+    n = len(N)  # Taille de la matrice N
+    optimized_params = res.x  # Prendre les valeurs optimisées
+    optimal_lambda = optimized_params[:-3].reshape(n, 2)  # Reshape en (n,2)
+    optimal_a = optimized_params[-3:]
+    num_params = len(res.x)
+    print("Optimal lambda (10 x 2):\n", optimal_lambda)
+    print("Optimal a (3 values):\n", optimal_a)
+    print("Maximum log-likelihood:", -res.fun)
+    print("Nombre de paramètres du modèle M3 :", num_params)
+
+    # Annotating points with labels
+    for i, label in enumerate(labels):
+        plt.text(optimal_lambda[:, 1][i] + 0.02, -optimal_lambda[:, 0][i] + 0.02, label, fontsize=12)
+    # Tracer optimal_lambda[:, 0] contre optimal_lambda[:, 1]
+    plt.scatter(optimal_lambda[:, 1], -optimal_lambda[:, 0], color='b', label=labels)
+    plt.xlabel("Lambda 1")
+    plt.ylabel("Lambda 2")
+    plt.title("Optimized Lambda Values")
+    plt.grid(True)
+
+    if affichage:
+        plt.show()
+
+def graphique_IPM_multistart(N, method, labels, num_starts=10, affichage=True):
+    log_V, res = IPM_algorithm.IPM_multistart(N,method,num_starts)
     # Extraire les paramètres optimaux depuis `res`
     n = len(N)  # Taille de la matrice N
     optimized_params = res.x  # Prendre les valeurs optimisées
@@ -155,15 +182,3 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
     # Grille et autres éléments de style
     ax.grid(True, color='black')  # Grille noire
     plt.show()
-
-"""# Test ellipses IPM()
-N = np.array([
-  [0, 39, 64, 40, 61, 76, 46],
-  [61, 0, 65, 59, 55, 85, 60],
-  [36, 35, 0, 31, 25, 41, 35],
-  [60, 41, 69, 0, 41, 80, 28],
-  [39, 45, 75, 59, 0, 71, 37],
-  [24, 15, 59, 20, 29, 0, 18],
-  [54, 40, 65, 72, 63, 82, 0]])
-
-labels = ["1","2","3","4","5","6","7"]"""

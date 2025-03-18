@@ -44,7 +44,7 @@ def eq_constraint(params,N):
     ])
     return phi
 
-def IPM_algorithm(N,a0,lam0,method) : 
+def IPM_algorithm(N,a0,lam0,method): 
     initial_guess = np.concatenate([lam0.flatten(), a0.flatten()])
     constraints = {'type': 'eq', 'fun': eq_constraint,'args': (N,)}
 
@@ -52,3 +52,22 @@ def IPM_algorithm(N,a0,lam0,method) :
     result = minimize(fun=objective, x0= initial_guess,args = (N,), method=method, constraints=constraints) ## add jacobian and hess
     
     return result
+
+def IPM_multistart(N, method, num_starts=10):
+    best_lambda_0 = None
+    best_V = -np.inf  # On cherche à maximiser la log-vraisemblance
+    a_0 = np.zeros((3, 1))  # Initialisation de a_0
+
+    for _ in range(num_starts):
+        lambda_candidate = np.random.uniform(0, 1, size=(2*len(N), 1))  # tester np.random.normal ?
+        res = IPM_algorithm(N, a0=a_0, lam0=lambda_candidate, method=method)  # Exécuter IPM
+        
+        if res.success:  # Vérifier que l'optimisation a convergé
+            log_likelihood = -res.fun  # Extraire la log-vraisemblance
+            
+            if log_likelihood > best_V:  # Met à jour si meilleur score
+                #best_lambda_0 = lambda_candidate
+                best_V = log_likelihood
+                best_res = res
+
+    return best_V, best_res
