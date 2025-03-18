@@ -28,11 +28,12 @@ import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_gra
 # PARTIE 2
 ##########
 
-# calcul_graphique.graphique_IPM(mat_comp_dog_opt3, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=croquettes_dog_opt3)
+#calcul_graphique.graphique_IPM(dog.mat_comp_opt3, method="trust-constr", reverse_v1=False, reverse_v2=False, labels=dog.croquettes_opt3)
 
 # Attention, le test de déviance ne permet que de comparer des modèles emboîtés, ce n'est pas le cas entre IPM et NR --> utiliser directement la vraisemblance.
 # calcul_graphique.vraisemblance_NR_IPM(dog.mat_comp_opt3,method="trust-constr",reverse_v1=False,reverse_v2=True)
 
+# calcul_graphique.ellipses_IPM(dog.mat_comp_opt3,"trust-constr",False,False,dog.croquettes_opt3)
 
 ##########
 # PARTIE X
