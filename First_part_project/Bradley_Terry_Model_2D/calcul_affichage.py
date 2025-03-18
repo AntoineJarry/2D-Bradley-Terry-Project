@@ -166,7 +166,7 @@ def log_vraisemblance_max(N):
               mij = N[i, j] + N[j, i]
               pi_ij = nij/mij
               log_Vraisemblance2 += nij*np.log(pi_ij)+ (mij-nij)*np.log(1-pi_ij)
-              log_Vraisemblance += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
+              #log_Vraisemblance += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
     #print(log_Vraisemblance)
     #print(log_Vraisemblance2)
     return log_Vraisemblance2
@@ -188,8 +188,8 @@ def log_Vraisemblance_mod_1(N, lambd, a): # lambd : lambda 2D
               mij = N[i, j] + N[j, i]
               pi_ij = calcul_pi_ij(N,lambd, i, j)
               log_Vraisemblance2 += nij*np.log(pi_ij)+ (mij-nij)*np.log(1-pi_ij)
-              log_Vraisemblance += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
-    log_Vraisemblance += np.sum(a * fonctions.phi(lambd))
+              #log_Vraisemblance += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
+    #log_Vraisemblance += np.sum(a * fonctions.phi(lambd))
     log_Vraisemblance2 += np.sum(a * fonctions.phi(lambd))
     #print(log_Vraisemblance)
     #print(log_Vraisemblance2)
@@ -204,7 +204,7 @@ def log_vraisemblance_M0(N):
             mij = N[i, j] + N[j, i]
             # Calcul de la log-vraisemblance pour pi_ij = 0.5
             log_Vraisemblance2 += nij*np.log(0.5)+ (mij-nij)*np.log(1-0.5)
-            log_L += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + mij * np.log(0.5)
+            #log_L += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + mij * np.log(0.5)
     #print(log_L)
     #print(log_Vraisemblance2)
     return log_Vraisemblance2
@@ -224,7 +224,7 @@ def log_vraisemblance_M1(N, lambd): #lambd : lambda 1D
 
             # Log-vraisemblance
             log_Vraisemblance2 += nij*np.log(pi_ij)+ (mij-nij)*np.log(1-pi_ij)
-            log_L += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
+            #log_L += np.log(factorial(mij)/(factorial(mij-nij)*factorial(nij))) + nij * np.log(pi_ij) + (mij - nij) * np.log(1 - pi_ij)
     #print(log_L)
     #print(log_Vraisemblance2)
     return log_Vraisemblance2

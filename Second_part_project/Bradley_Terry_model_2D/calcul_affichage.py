@@ -84,7 +84,7 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
                        [np.eye(n),np.zeros((n,n))]]) # matrice taille 2n carré
     mat_cov_var = fonctions.extract_submatrix(np.linalg.inv(np.block([[-fonctions.second_derivative_L_star(N,optimal_lambda[0:2*n])-optimal_lambda[-1,]*matrice, fonctions.d_phi(optimal_lambda[0:2*n])],
                                                              [np.transpose(fonctions.d_phi(optimal_lambda[0:2*n])), np.zeros((3,3))]])), n) # moins en haut à gauche propt silvey
-    """"
+    """
     # Calcul mat_cov_var Option 2 :
     """
     optimal_lambda = optimized_params[:-3].reshape(n, 2)
@@ -96,7 +96,7 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
         ])), 
         n
     )
-    """""
+    """
     # optimal_lambda = optimized_params[:-3].reshape(2*n, 1)
     lambda_1 = optimal_lambda[0:n, 0]  # Coordonnées X
     lambda_2 = -optimal_lambda[n:2*n, 0]  # Coordonnées Y
@@ -179,4 +179,4 @@ N = np.array([
   [54, 40, 65, 72, 63, 82, 0]])
 
 labels = ["1","2","3","4","5","6","7"]
-ellipses_IPM(N,"trust-constr",False,True,labels)
+ellipses_IPM(N,"trust-constr",False,True,labels)"""

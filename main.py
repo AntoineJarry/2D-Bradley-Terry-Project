@@ -22,7 +22,7 @@ import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_gra
 
 # calcul_affichage.ellipses(N_cat_1,labels_cat_1,reverse_v1=False,reverse_v2=True)
 
-# print(calcul_affichage.deviances(mat_comp_dog_opt1,reverse_v1=False,reverse_v2=True))
+# print(calcul_affichage.deviances(dog.mat_comp_opt3,reverse_v1=False,reverse_v2=True))
 
 ##########
 # PARTIE 2
@@ -30,9 +30,8 @@ import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_gra
 
 # calcul_graphique.graphique_IPM(mat_comp_dog_opt3, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=croquettes_dog_opt3)
 
-# Attention, le test de déviance ne permet que de comparer des modèles emboîtés, ce n'est pas le cas entre IPM et NR
-# --> utiliser directement la vraisemblance.
-# calcul_graphique.vraisemblance_NR_IPM(mat_comp_dog_opt1,method="trust-constr",reverse_v1=False,reverse_v2=True)
+# Attention, le test de déviance ne permet que de comparer des modèles emboîtés, ce n'est pas le cas entre IPM et NR --> utiliser directement la vraisemblance.
+# calcul_graphique.vraisemblance_NR_IPM(dog.mat_comp_opt3,method="trust-constr",reverse_v1=False,reverse_v2=True)
 
 
 ##########
@@ -73,7 +72,7 @@ import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_gra
 # Vraissemblance ?
 # print(calcul_affichage.deviances(dog.mat_comp_opt3, reverse_v1=False, reverse_v2=True))
 # calcul_1D.graphique_1D(dog.mat_comp_opt3, dog.croquettes_opt3)
-print(calcul_1D.functions.bradley_terry_iterative(dog.mat_comp_opt3))
+# print(calcul_1D.functions.bradley_terry_iterative(dog.mat_comp_opt3))
 # calcul_1D_IPM.graphique_1D_IPM(dog.mat_comp_opt3, dog.croquettes_opt3, affichage=False)
 
 
