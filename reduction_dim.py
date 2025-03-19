@@ -59,7 +59,9 @@ for perplexity in [2, 4, 6]:
 # Classical MDS
 start_time = time.time()
 mds = starting_point.starting_point(mat_comp_dog_opt3, reverse_v1=False, reverse_v2=False)
+print(mds)
 mds = np.hstack((mds[:len(mat_comp_dog_opt3)], mds[len(mat_comp_dog_opt3):]))
+print(mds)
 elapsed_time = time.time() - start_time
 methods.append(("Classical MDS", mds))
 time_results["MDS"] = elapsed_time
@@ -162,7 +164,7 @@ for title, data in methods:
         print(f"Optimized Params: {result.x}")
         print(f"Computation Time: {elapsed_time:.4f} seconds")
         print(f"Iterations: {result.nit}")
-        print(f"Log-vraisemblance : {result.fun}")
+        print(f"Log-vraisemblance : {-result.fun}")
         print('-' * 50)
     
     except Exception as e:

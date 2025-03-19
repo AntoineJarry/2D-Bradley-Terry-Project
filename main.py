@@ -56,7 +56,7 @@ import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_gra
 # 2D ###
 # -----#
 
-# calcul_graphique.graphique_IPM(dog.mat_comp_opt3, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=dog.croquettes_opt3, affichage=True)
+calcul_graphique.graphique_IPM(dog.mat_comp_opt3, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=dog.croquettes_opt3, affichage=True)
 # plt.savefig("graphes/2D_opt3.png", dpi=300, bbox_inches='tight')
 
 # calcul_graphique.graphique_IPM(dog.mat_comp_opt1, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=dog.croquettes_opt1, affichage=True)
@@ -73,7 +73,7 @@ import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_gra
 # Vraissemblance ?
 # print(calcul_affichage.deviances(dog.mat_comp_opt3, reverse_v1=False, reverse_v2=True))
 # calcul_1D.graphique_1D(dog.mat_comp_opt3, dog.croquettes_opt3)
-print(calcul_1D.functions.bradley_terry_iterative(dog.mat_comp_opt3))
+# print(calcul_1D.functions.bradley_terry_iterative(dog.mat_comp_opt3))
 # calcul_1D_IPM.graphique_1D_IPM(dog.mat_comp_opt3, dog.croquettes_opt3, affichage=False)
 
 
