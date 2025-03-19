@@ -14,6 +14,7 @@ sys.path.append(project_root)
 import First_part_project.Bradley_Terry_Model_2D.NR_algorithm.starting_point as starting_point
 import First_part_project.Bradley_Terry_Model_2D.calcul_affichage as calcul_affichage
 import First_part_project.Bradley_Terry_Model_2D.fonctions as fonctions
+import First_part_project.Bradley_Terry_model_1D.Algorithm.functions as functions
 
 import Second_part_project.Bradley_Terry_model_2D.IPM_algorithm as IPM_algorithm
 
@@ -91,6 +92,45 @@ def vraisemblance_NR_IPM(N, method, reverse_v1, reverse_v2):
 
     print("Log-vraisemblance Maximum IPM:", logv_ipm)
     print("Log-vraisemblance Newton-Raphson:", logv_NR)
+
+def deviances(N,method,reverse_v1,reverse_v2):
+    # Récupération des paramètres Lambda
+    n = len(N)
+    lambda_ = functions.bradley_terry_iterative(N)
+
+    # Calcul des log-V des modèles
+    log_v_M0 = calcul_affichage.log_vraisemblance_M0(N)
+    log_v_max = calcul_affichage.log_vraisemblance_max(N)
+    log_v_M1 = calcul_affichage.log_vraisemblance_M1(N, lambda_)
+
+    lambda_0 = starting_point.starting_point(N, reverse_v1, reverse_v2)
+    lambda_0.reshape(2*len(N),1)
+    a_0 = np.zeros((3, 1))
+    res = IPM_algorithm.IPM_algorithm(N, a0=a_0, lam0=lambda_0, method=method)
+
+    log_v_mod_1 = -res.fun
+
+    # Calcul des déviances et du nombre de paramètres de chaque modèle
+    D0 = 2*np.absolute(log_v_M0 - log_v_max)
+    D1 = 2*np.absolute(log_v_M0 - log_v_M1)
+    D2 = 2*np.absolute(log_v_M1 - log_v_mod_1)
+    D_residual = 2*np.absolute(log_v_mod_1 - log_v_max)
+    n_param_0 = n*(n-1)/2
+    n_param_1 = n-1
+    n_param_2 = n-2
+    n_param_max = n_param_0 - (n_param_1+n_param_2)
+
+    # Calcul des p-valeurs
+    G2_1 = D0 - D1  # Différence de déviance
+    df_1 = n_param_0 - n_param_1     # Différence de degrés de liberté
+    G2_2 = D1 - D2  # Différence de déviance
+    df_2 = n_param_1 - n_param_2     # Différence de degrés de liberté (vaut 1)
+    # Calculer la p-valeur
+    p_valeur_1 = 1 - chi2.cdf(G2_1, df_1)
+    p_valeur_2 = 1 - chi2.cdf(G2_2, df_2)
+
+    return f"Modèle nul : Log-V = {log_v_M0}. Déviance = {D0}. Nombre de paramètres = {n_param_0}\nModèle en 1D : Log-V = {log_v_M1}. Déviance = {D1}. Nombre de paramètres = {n_param_1}. p-valeur = {p_valeur_1} \nModèle en 2D : Log-V = {log_v_mod_1}. Déviance = {D2}. Nombre de paramètres = {n_param_2}. p-valeur = {p_valeur_2}\nModel résiduel : Log-V = {log_v_max}. Déviance = {D_residual}. Nombre de paramètres = {n_param_max}"
+
 
 def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
     lambda_0 = starting_point.starting_point(N, reverse_v1, reverse_v2)
