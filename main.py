@@ -34,7 +34,7 @@ import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_gra
 
 # calcul_graphique.vraisemblance_NR_IPM(dog.mat_comp_opt3,method="trust-constr",reverse_v1=False,reverse_v2=True)
 
-# calcul_graphique.ellipses_IPM(dog.mat_comp_opt3,"trust-constr",False,False,dog.croquettes_opt3)
+calcul_graphique.ellipses_IPM(dog.mat_comp_opt3,"trust-constr",False,False,dog.croquettes_opt3)
 
 # print(calcul_graphique.deviances(dog.mat_comp_opt3,"trust-constr",False,False))
 
@@ -54,27 +54,27 @@ import Second_part_project.Bradley_Terry_model_2D.calcul_affichage as calcul_gra
 
 # calcul_1D_IPM.graphique_1D_IPM(dog.mat_comp_opt3, dog.croquettes_opt3)
 
-# print(calcul_graphique.deviance_NR_IPM(dog.mat_comp_opt3, method='trust-constr', reverse_v1=False, reverse_v2=True))
+# print(calcul_graphique.deviance_NR_IPM(dog.mat_comp_opt3, method='trust-constr', reverse_v1=False, reverse_v2=False))
 
 # 2D ###
 # -----#
 
-calcul_graphique.graphique_IPM(dog.mat_comp_opt3, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=dog.croquettes_opt3, affichage=True)
+# calcul_graphique.graphique_IPM(dog.mat_comp_opt3, method="trust-constr", reverse_v1=False, reverse_v2=False, labels=dog.croquettes_opt3, affichage=True)
 # plt.savefig("graphes/2D_opt3.png", dpi=300, bbox_inches='tight')
 
-# calcul_graphique.graphique_IPM(dog.mat_comp_opt1, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=dog.croquettes_opt1, affichage=True)
+# calcul_graphique.graphique_IPM(dog.mat_comp_opt1, method="trust-constr", reverse_v1=False, reverse_v2=False, labels=dog.croquettes_opt1, affichage=True)
 # plt.savefig("graphes/2D_opt1.png", dpi=300, bbox_inches='tight')
 
 
 # Chats
 # calcul_1D_IPM.graphique_1D_IPM(cat.mat_comp_opt1, cat.croquettes_opt1)
-# calcul_graphique.graphique_IPM(cat.mat_comp_opt1, method="trust-constr", reverse_v1=False, reverse_v2=True, labels=cat.croquettes_opt1, affichage=True)
+# calcul_graphique.graphique_IPM(cat.mat_comp_opt1, method="trust-constr", reverse_v1=False, reverse_v2=False, labels=cat.croquettes_opt1, affichage=True)
 
 # Comparaison models 1D ###
 # ----------------------###
 
 # Vraissemblance ?
-# print(calcul_affichage.deviances(dog.mat_comp_opt3, reverse_v1=False, reverse_v2=True))
+# print(calcul_affichage.deviances(dog.mat_comp_opt3, reverse_v1=False, reverse_v2=False))
 # calcul_1D.graphique_1D(dog.mat_comp_opt3, dog.croquettes_opt3)
 # print(calcul_1D.functions.bradley_terry_iterative(dog.mat_comp_opt3))
 # calcul_1D_IPM.graphique_1D_IPM(dog.mat_comp_opt3, dog.croquettes_opt3, affichage=False)

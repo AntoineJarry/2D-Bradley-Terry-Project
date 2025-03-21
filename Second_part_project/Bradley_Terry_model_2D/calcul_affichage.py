@@ -19,6 +19,7 @@ import First_part_project.Bradley_Terry_model_1D.Algorithm.functions as function
 import Second_part_project.Bradley_Terry_model_2D.IPM_algorithm as IPM_algorithm
 
 
+
 def graphique_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
     lambda_0 = starting_point.starting_point(N, reverse_v1, reverse_v2)
     lambda_0.reshape(2*len(N),1)
@@ -38,12 +39,11 @@ def graphique_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
 
     # Annotating points with labels
     for i, label in enumerate(labels):
-        plt.text(optimal_lambda[:, 1][i] + 0.02, -optimal_lambda[:, 0][i] + 0.02, label, fontsize=12)
+        plt.text(-optimal_lambda[:, 1][i] + 0.02, -optimal_lambda[:, 0][i] + 0.02, label, fontsize=12)
     # Tracer optimal_lambda[:, 0] contre optimal_lambda[:, 1]
-    plt.scatter(optimal_lambda[:, 1], -optimal_lambda[:, 0], color='b', label=labels)
+    plt.scatter(-optimal_lambda[:, 1], -optimal_lambda[:, 0], color='b', label=labels)
     plt.xlabel("Lambda 1")
     plt.ylabel("Lambda 2")
-    plt.title("Optimized Lambda Values")
     plt.grid(True)
 
     if affichage:
@@ -152,7 +152,7 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
                                                              [np.transpose(fonctions.d_phi(optimal_lambda[0:2*n])), np.zeros((3,3))]])), n) # moins en haut à gauche propt silvey
 
     # optimal_lambda = optimized_params[:-3].reshape(2*n, 1)
-    lambda_1 = optimal_lambda[0:n, 0]  # Coordonnées X
+    lambda_1 = -optimal_lambda[0:n, 0]  # Coordonnées X
     lambda_2 = -optimal_lambda[n:2*n, 0]  # Coordonnées Y
 
     # Créer les paires d'indices (1, 8), (2, 9), ..., (7, 14)
@@ -217,8 +217,8 @@ def ellipses_IPM(N, method, reverse_v1, reverse_v2, labels, affichage=True):
     # Labels et titre
     ax.set_xlabel('$\lambda_1$', fontsize=12, color='black')
     ax.set_ylabel('$\lambda_2$', fontsize=12, color='black')
-    ax.set_title('2D IPM avec Ellipses de Confiance', fontsize=14, color='black')
-
+    
+    ax.set_xticks(ax.get_xticks()[::-1])
     # Grille et autres éléments de style
     ax.grid(True, color='black')  # Grille noire
     plt.show()
